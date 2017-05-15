@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+
+<table id="mydatatable" class="display" width="100%">
+    <thead>
+        <tr>
+            <th>Screen</th>
+            <th>Task</th>
+            <th>Estimate</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Mass Payee Billing Transfer</td>
+            <td>Code Review Comments</td>
+            <td>110.12</td>
+        </tr>
+    </tbody>
+    <tbody>
+        <tr>
+            <td>Mail Ballot</td>
+            <td>Walkthrough Document</td>
+            <td>12</td>
+        </tr>
+    </tbody>
+
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('#mydatatable').DataTable();
+    });
+    
+</script>
