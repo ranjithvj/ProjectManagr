@@ -2,7 +2,7 @@
 
 namespace RepositoryInterfaces
 {
-    public interface IScreenRepository : IPmRepository<Screen>
+    public interface IScreenRepository : IRepository<Screen>
     {
     }
 }

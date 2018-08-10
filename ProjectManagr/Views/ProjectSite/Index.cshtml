@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "MYDP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="gridDiv">
+    <table id="screenTable" class="display" width="100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<div class="modal fade" id="createProjectSiteModal" tabindex="-1" role="dialog" aria-labelledby="createProjectSiteModal"
+     aria-hidden="true" data-backdrop="static">
+    <div id="createProjectSiteContainer">
+    </div>
+</div>
+
+<div class="modal fade" id="detailsProjectSiteModal" tabindex="-1" role="dialog" aria-labelledby="detailsProjectSiteModal" aria-hidden="true" data-backdrop="static">
+    <div id="detailsProjectSiteContainer">
+    </div>
+</div>
+
+<div class="modal fade" id="deleteProjectSiteModal" tabindex="-1" role="dialog" aria-labelledby="deleteProjectSiteModal" aria-hidden="true" data-backdrop="static">
+    <div id="deleteProjectSiteContainer">
+    </div>
+</div>
+
+@Html.Hidden("getUrl", Url.Action("Get", "ProjectSite"))
+@Html.Hidden("createUrl", Url.Action("Create", "ProjectSite"))
+@Html.Hidden("editUrl", Url.Action("Edit", "ProjectSite"))
+@Html.Hidden("deleteUrl", Url.Action("Delete", "ProjectSite"))
+@Html.Hidden("detailsUrl", Url.Action("Details", "ProjectSite"))
+
+ <!-- Datatables Plugin -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<!-- Bootstrap Date-Picker Plugin -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<!--Our JS-->
+<script src="~/Scripts/Application/ProjectSite.js"></script>
+<link href="~/Content/Common.css" rel="stylesheet" />
+

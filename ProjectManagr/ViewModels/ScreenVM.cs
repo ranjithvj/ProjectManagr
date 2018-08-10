@@ -2,38 +2,24 @@
 using Models.Shared;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManagr.ViewModels
 {
     public class ScreenVM : BaseVM
     {
-        public ScreenVM(Screen obj)
+        public ScreenVM()
         {
-            this.Id = obj.Id;
-            this.Name = obj.Name;
-            this.TechLead = obj.TechLead;
-            this.EstCompletion = obj.EstCompletion;
-            this.EstRelease = obj.EstRelease;
-            this.EstRevisedRelease = obj.EstRevisedRelease;
-            this.ActualRelease = obj.ActualRelease;
-            this.EstHours = obj.EstHours;
-            this.ActualHours = obj.ActualHours;
-            this.Comments = obj.Comments;
-            this.RevisionReason = obj.RevisionReason;
-            this.ResourceCount = obj.ResourceCount;
-            this.Status = obj.Status;
-            this.SprintsRef = obj.SprintsRef;
-            this.TotalManDays = obj.TotalManDays;
-            this.ManDaysPerResource = obj.ManDaysPerResource;
-            this.Sprints = obj.Sprints;
         }
 
         #region Properties
-
+        [Required]
         public string Name { get; set; }
 
         public string TechLead { get; set; }
 
+        [Required(ErrorMessage = "This is a required field")]
+        [Display(Name = "Estimated Completion")]
         public DateTime EstCompletion { get; set; }
 
         public DateTime EstRelease { get; set; }
@@ -61,6 +47,7 @@ namespace ProjectManagr.ViewModels
         public decimal ManDaysPerResource { get; set; }
 
         public List<int> Sprints { get; set; }
+        public bool IsEdit { get; set; }
 
         #endregion Properties
     }

@@ -15,9 +15,14 @@ namespace Services
             _screenRepository = screenRepository;
         }
 
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(Screen item)
         {
-             _screenRepository.Delete(item);
+            throw new NotImplementedException();
         }
 
         public Screen Get(int id)
@@ -25,7 +30,7 @@ namespace Services
             return _screenRepository.Get(id);
         }
 
-        public IEnumerable<Screen> GetAll()
+        public List<Screen> GetAll()
         {
             return _screenRepository.GetAll();
         }
@@ -39,5 +44,6 @@ namespace Services
         {
             _screenRepository.Update(item);
         }
+        
     }
 }

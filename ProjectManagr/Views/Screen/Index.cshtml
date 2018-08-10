@@ -4,7 +4,6 @@
 }
 
 <div class="gridDiv">
-
     <table id="screenTable" class="display" width="100%">
         <thead>
             <tr>
@@ -20,13 +19,6 @@
                 <th>
                     EstRelease
                 </th>
-                @*
-                <th>
-                    EstRevisedRelease
-                </th>
-                <th>
-                    ActualRelease
-                </th>*@
                 <th>
                     EstHours
                 </th>
@@ -36,26 +28,33 @@
                 <th>
                     Comments
                 </th>
-                @*
-                <th>
-                    RevisionReason
-                </th>
-                <th>
-                    ResourceCount
-                </th>
-                <th>
-                    SprintsRef
-                </th>
-                <th>
-                    TotalManDays
-                </th>
-                <th>
-                    ManDaysPerResource
-                </th>*@
                 <th></th>
             </tr>
         </thead>
     </table>
 </div>
+
+<div class="modal fade" id="createProjectSiteModal" tabindex="-1" role="dialog" aria-labelledby="createProjectSiteModal" 
+     aria-hidden="true" data-backdrop="static">
+    <div id="createProjectContainer">
+    </div>
+</div>  
+
+<div class="modal fade" id="detailsProjectSiteModal" tabindex="-1" role="dialog" aria-labelledby="detailsProjectSiteModal" aria-hidden="true" data-backdrop="static">
+    <div id="detailsProjectSiteContainer">
+    </div>
+</div>
+
+<div class="modal fade" id="deleteProjectSiteModal" tabindex="-1" role="dialog" aria-labelledby="deleteProjectSiteModal" aria-hidden="true" data-backdrop="static">
+    <div id="deleteProjectSiteContainer">
+    </div>
+</div>
+
+@Html.Hidden("getUrl", Url.Action("Get", "Screen"))
+@Html.Hidden("createUrl", Url.Action("Create", "Screen"))
+@Html.Hidden("editUrl", Url.Action("Edit", "Screen"))
+@Html.Hidden("deleteUrl", Url.Action("Delete", "Screen"))
+@Html.Hidden("detailsUrl", Url.Action("Details", "Screen"))
+
 <script src="~/Scripts/Application/Screen.js"></script>
 <link href="~/Content/Common.css" rel="stylesheet" />

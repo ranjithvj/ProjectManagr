@@ -1,4 +1,5 @@
-﻿namespace Utilities
+﻿
+namespace Utilities
 {
     public class Helper
     {
@@ -8,10 +9,6 @@
             {
                 property.SetValue(destination, property.GetValue(source));
             }
-        }
-
-        public void Donothing()
-        {
         }
     }
 }

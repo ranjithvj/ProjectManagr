@@ -22,3 +22,73 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#createProjectSiteContainer {
+}
+
+#createProjectContainer {
+    margin-top: 5vh;
+}
+
+    #createProjectContainer .modal-content {
+        max-width: 40vw;
+        margin: auto;
+    }
+
+#ModalBody {
+    max-height: 60vh;
+    overflow-y: scroll;
+}
+
+#ProjectModalBody {
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.modal-backdrop {
+    visibility: hidden !important;
+}
+
+.modal.in {
+    background-color: rgba(0,0,0,0.5);
+}
+
+/*To remove the close button on top*/
+.close {
+    /*display: none;*/
+}
+
+#dataTablesSearchbox {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+.dataTables_filter {
+    display: inline;
+}
+
+#dataTableSearchBtn {
+    border: none;
+    margin-left: 10px;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1700px;
+    }
+}
+
+.required:after {
+    content: "*";
+    font-weight: bold;
+    color: red;
+}
