@@ -1,4 +1,5 @@
 ﻿using Models;
+using Repositories.Cache;
 using RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,12 @@ namespace Repositories
 {
     public class SiteItmFeedbackRepository : ISiteItmFeedbackRepository
     {
+        private CacheHelper _cacheHelper;
+        public SiteItmFeedbackRepository()
+        {
+            _cacheHelper = CacheHelper.GetInstance();
+        }
+
         public void Delete(int id)
         {
             using (var context = new PmDbContext())
@@ -22,11 +29,21 @@ namespace Repositories
         List<SiteItmFeedback> IRepository<SiteItmFeedback>.GetAll()
         {
             List<SiteItmFeedback> items;
-            using (var context = new PmDbContext())
+
+            //Check in cache
+            items = _cacheHelper.GetAll<SiteItmFeedback>();
+
+            if (items == null)
             {
-                items = context.SiteItmFeedbacks.ToList();
-                return items;
+                using (var context = new PmDbContext())
+                {
+                    items = context.SiteItmFeedbacks.ToList();
+
+                    //Add in cache
+                    items.ForEach(x => _cacheHelper.AddOrUpdate<SiteItmFeedback>(x.Id, x));
+                }
             }
+            return items;
         }
 
         SiteItmFeedback IRepository<SiteItmFeedback>.Get(int id)

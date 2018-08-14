@@ -1,4 +1,5 @@
 ﻿using Models;
+using Repositories.Cache;
 using RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,12 @@ namespace Repositories
 {
     public class CountryRepository : ICountryRepository
     {
+        private CacheHelper _cacheHelper;
+        public CountryRepository()
+        {
+            _cacheHelper = CacheHelper.GetInstance();
+        }
+
         public void Delete(int id)
         {
             using (var context = new PmDbContext())
@@ -22,11 +29,21 @@ namespace Repositories
         List<Country> IRepository<Country>.GetAll()
         {
             List<Country> items;
-            using (var context = new PmDbContext())
+
+            //Check in cache
+            items = _cacheHelper.GetAll<Country>();
+
+            if (items == null)
             {
-                items = context.Countries.ToList();
-                return items;
+                using (var context = new PmDbContext())
+                {
+                    items = context.Countries.ToList();
+
+                    //Add in cache
+                    items.ForEach(x => _cacheHelper.AddOrUpdate<Country>(x.Id, x));
+                }
             }
+            return items;
         }
 
         Country IRepository<Country>.Get(int id)

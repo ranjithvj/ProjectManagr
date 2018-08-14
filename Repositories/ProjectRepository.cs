@@ -1,5 +1,7 @@
 ﻿using Models;
+using Repositories.Cache;
 using RepositoryInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
@@ -8,6 +10,12 @@ namespace Repositories
 {
     public class ProjectRepository : IProjectRepository
     {
+        private CacheHelper _cacheHelper;
+        public ProjectRepository()
+        {
+            _cacheHelper = CacheHelper.GetInstance();
+        }
+
         public void Delete(int id)
         {
             using (var context = new PmDbContext())
@@ -16,25 +24,43 @@ namespace Repositories
                 context.Projects.Attach(item);
                 context.Projects.Remove(item);
                 context.SaveChanges();
+                _cacheHelper.DeleteItem<Project>(id);
             }
         }
 
         List<Project> IRepository<Project>.GetAll()
         {
             List<Project> items;
-            using (var context = new PmDbContext())
+
+            //Check in cache
+            items = _cacheHelper.GetAll<Project>();
+
+            if (items == null)
             {
-                items = context.Projects.ToList();
-                return items;
+                using (var context = new PmDbContext())
+                {
+                    items = context.Projects.ToList();
+
+                    //Add in cache
+                    items.ForEach(x => _cacheHelper.AddOrUpdate<Project>(x.Id, x));
+                }
             }
+            return items;
+
         }
 
         Project IRepository<Project>.Get(int id)
         {
             Project returnValue;
-            using (var context = new PmDbContext())
+            returnValue = _cacheHelper.GetById<Project>(id);
+            if (returnValue == null)
             {
-                returnValue = context.Projects.FirstOrDefault(x => x.Id == id);
+                using (var context = new PmDbContext())
+                {
+                    returnValue = context.Projects.FirstOrDefault(x => x.Id == id);
+                    if (returnValue != null)
+                        _cacheHelper.AddOrUpdate<Project>(id, returnValue);
+                }
             }
             return returnValue;
         }
@@ -43,8 +69,12 @@ namespace Repositories
         {
             using (var context = new PmDbContext())
             {
+                item.IsActive = true;
+                item.CreatedDate = DateTime.UtcNow;
+                item.ModifiedDate = DateTime.UtcNow;
                 context.Projects.Add(item);
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<Project>(item.Id, item);
             }
         }
 
@@ -56,6 +86,7 @@ namespace Repositories
                 Helper.TransferData(item, originalItem);
                 context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<Project>(item.Id, item);
             }
         }
     }

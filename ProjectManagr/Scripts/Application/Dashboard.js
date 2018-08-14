@@ -21,8 +21,8 @@
                     group: i,
                     start: ParseDate(data[i].SiteEngagementStart),
                     end: ParseDate(data[i].SiteEngagementEnd),
-                    content: data[i].EntityStatus,
-                    style: "background-color : " + color,
+                    content: data[i].EntityStatusName,
+                    //style: "background-color : " + color,
                 });
             }
 

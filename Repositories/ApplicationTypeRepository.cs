@@ -1,4 +1,5 @@
 ﻿using Models;
+using Repositories.Cache;
 using RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,12 @@ namespace Repositories
 {
     public class ApplicationTypeRepository : IApplicationTypeRepository
     {
+        private CacheHelper _cacheHelper;
+        public ApplicationTypeRepository()
+        {
+            _cacheHelper = CacheHelper.GetInstance();
+        }
+
         public void Delete(int id)
         {
             using (var context = new PmDbContext())
@@ -22,11 +29,22 @@ namespace Repositories
         List<ApplicationType> IRepository<ApplicationType>.GetAll()
         {
             List<ApplicationType> items;
-            using (var context = new PmDbContext())
+
+            //Check in cache
+            items = _cacheHelper.GetAll<ApplicationType>();
+
+            if (items == null)
             {
-                items = context.ApplicationTypes.ToList();
-                return items;
+                using (var context = new PmDbContext())
+                {
+                    items = context.ApplicationTypes.ToList();
+
+                    //Add in cache
+                    items.ForEach(x => _cacheHelper.AddOrUpdate<ApplicationType>(x.Id, x));
+                }
             }
+            return items;
+
         }
 
         ApplicationType IRepository<ApplicationType>.Get(int id)

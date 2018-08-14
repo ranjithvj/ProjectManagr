@@ -79,66 +79,122 @@ namespace ProjectManagr.ViewModels
         }
 
         #region Properties
+
         [Display(Name = "Project")] //To display a dropdown of names and get the value!
         [Required(ErrorMessage = "This is a required field")]
         public int ProjectId { get; set; }
+
         [Display(Name = "Project ID Number")]
         public string Code { get; set; }
+
+        [Display(Name = "Project")]
         public string Name { get; set; }
+
         [Display(Name = "Project Description")]
         public string Description { get; set; }
+
         [Display(Name = "PM / ADL / Planner")]
         [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
         public string PmName { get; set; } //todo: need to add range validation
+
         [Display(Name = "Application Name")]
         public string ApplicationName { get; set; }
+
         [Display(Name = "Sub Portfolio Name")]
         public int SubPortfolioId { get; set; }
+
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         public int SubPortfolioIdRef { get; set; }//To handle the disabled dropdown in the browser
+
         public string SubPortfolioName { get; set; }
+
         [Display(Name = "Entity Status")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         public int EntityStatusId { get; set; }
+
         public string EntityStatusName { get; set; }
+
         [Display(Name = "Country Name")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         public int CountryId { get; set; }
+
         public string CountryName { get; set; }
+
         [Display(Name = "Site Name")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         public int SiteId { get; set; }
+
         public string SiteName { get; set; }
+
         [Display(Name = "Site ITM Feedback")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         public int SiteItmFeedbackId { get; set; }
+
         public string SiteItmFeedbackName { get; set; }
+
         [Display(Name = "Department")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         public int DepartmentId { get; set; }
+
         public string DepartmentName { get; set; }
+
         [Display(Name = "Application Type")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         public int ApplicationTypeId { get; set; }
+
         public string ApplicationTypeName { get; set; }
+
         public string Apex { get; set; }
+
         [Display(Name = "Potential Value")]
         [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
         public string PotentialValue { get; set; }
+
         [Display(Name = "Site ITM")]
         public string SiteItm { get; set; }
+
         [Display(Name = "Site Engagement Start Date")]
         [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
         public DateTime? SiteEngagementStart { get; set; }
+
         [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
         [Display(Name = "Site Engagement End Date")]
         public DateTime? SiteEngagementEnd { get; set; }
+
         [Display(Name = "Has Business Impact")]
-        public string HasBusinessImpact { get; set; } //Y or N : Yes or No -- ~Handle in C#
+        public bool HasBusinessImpact { get; set; } //Y or N : Yes or No -- ~Handle in C#
+
+        public string HasBusinessImpactRef
+        {
+            get
+            {
+                if (this.HasBusinessImpact)
+                {
+                    return "Yes";
+                }
+                return "No";
+                //Changes
+            }
+        }
+
         [Display(Name = "Comments and Issues")]
         public string CommentsAndIssues { get; set; }
+
         [Display(Name = "Is Resource Required")]
-        public string IsResourceRequired { get; set; } //Y or N : Yes or No  -- ~Handle in c#
+        public bool IsResourceRequired { get; set; }//Y or N : Yes or No  -- ~Handle in c#
+
+        public string IsResourceRequiredRef
+        {
+            get
+            {
+                if(this.IsResourceRequired)
+                {
+                    return "Yes";
+                }
+                return "No";
+            }
+        }
+
         public string Attachment { get; set; }
         public bool IsEdit { get; set; }
         public bool IsActive { get; set; }
@@ -146,6 +202,7 @@ namespace ProjectManagr.ViewModels
         public string ModifiedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+
         #endregion
 
         #region Dropdowns
@@ -159,6 +216,11 @@ namespace ProjectManagr.ViewModels
         public List<SelectListItem> SiteItmFeedbacks { get; internal set; }
 
 
+        #endregion
+
+        #region Validation
+
+       
         #endregion
     }
 }

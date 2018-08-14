@@ -3,11 +3,17 @@ using RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
+using Repositories.Cache;
 
 namespace Repositories
 {
     public class EntityStatusRepository : IEntityStatusRepository
     {
+        private CacheHelper _cacheHelper;
+        public EntityStatusRepository()
+        {
+            _cacheHelper = CacheHelper.GetInstance();
+        }
         public void Delete(int id)
         {
             using (var context = new PmDbContext())
@@ -21,12 +27,21 @@ namespace Repositories
 
         List<EntityStatus> IRepository<EntityStatus>.GetAll()
         {
-            List<EntityStatus> entityStatuses;
-            using (var context = new PmDbContext())
+            List<EntityStatus> items;
+            //Check in cache
+            items = _cacheHelper.GetAll<EntityStatus>();
+
+            if (items == null)
             {
-                entityStatuses = context.EntityStatuses.ToList();
-                return entityStatuses;
+                using (var context = new PmDbContext())
+                {
+                    items = context.EntityStatuses.ToList();
+
+                    //Add in cache
+                    items.ForEach(x => _cacheHelper.AddOrUpdate<EntityStatus>(x.Id, x));
+                }
             }
+            return items;
         }
 
         EntityStatus IRepository<EntityStatus>.Get(int id)

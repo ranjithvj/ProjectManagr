@@ -1,4 +1,5 @@
 ﻿using Models;
+using Repositories.Cache;
 using RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,12 @@ namespace Repositories
 {
     public class SubPortfolioRepository : ISubPortfolioRepository
     {
+        private CacheHelper _cacheHelper;
+        public SubPortfolioRepository()
+        {
+            _cacheHelper = CacheHelper.GetInstance();
+        }
+
         public void Delete(int id)
         {
             using (var context = new PmDbContext())
@@ -22,11 +29,21 @@ namespace Repositories
         List<SubPortfolio> IRepository<SubPortfolio>.GetAll()
         {
             List<SubPortfolio> items;
-            using (var context = new PmDbContext())
+
+            //Check in cache
+            items = _cacheHelper.GetAll<SubPortfolio>();
+
+            if (items == null)
             {
-                items = context.SubPortfolios.ToList();
-                return items;
+                using (var context = new PmDbContext())
+                {
+                    items = context.SubPortfolios.ToList();
+
+                    //Add in cache
+                    items.ForEach(x => _cacheHelper.AddOrUpdate<SubPortfolio>(x.Id, x));
+                }
             }
+            return items;
         }
 
         SubPortfolio IRepository<SubPortfolio>.Get(int id)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,22 @@ namespace ProjectManagr.ViewModels
 {
     public class ProjectVM : BaseVM
     {
+        public ProjectVM()
+        {
+
+        }
+
+        public ProjectVM(Project obj)
+        {
+            this.Id = obj.Id;
+            this.Code = obj.Code;
+            this.Name = obj.Name;
+            this.Description = obj.Description;
+            this.PmName = obj.PmName;
+            this.ApplicationName = obj.ApplicationName;
+            this.SubPortfolioId = obj.SubPortfolioId;
+            this.SubPortfolioName = obj.SubPortfolio?.Name;
+        }
 
         #region Properties
 
@@ -31,6 +48,7 @@ namespace ProjectManagr.ViewModels
 
         [Display(Name = "Sub Portfolio Name")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
+        [Required(ErrorMessage = "This is a required field")]
         public int SubPortfolioId { get; set; }
 
         public string SubPortfolioName { get; set; }

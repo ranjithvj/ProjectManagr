@@ -44,8 +44,8 @@ namespace ProjectManagr.Controllers
                     Screen screen = new Screen();
                     screen.Name = "Related Well " + i;
                     screen.TechLead = "Selva";
-                    screen.EstCompletion = DateTime.Now.AddDays(i);
-                    screen.EstRelease = DateTime.Now.AddDays(-i);
+                    screen.EstCompletion = DateTime.UtcNow.AddDays(i);
+                    screen.EstRelease = DateTime.UtcNow.AddDays(-i);
                     ScreenVM vm = IMapper.Map<Screen, ScreenVM>(screen);
                     vm.Id = i;
                     returnData.Add(vm);
@@ -128,8 +128,8 @@ namespace ProjectManagr.Controllers
             Screen screen = new Screen();
             screen.Name = "Related Well";
             screen.TechLead = "Selva";
-            screen.EstCompletion = DateTime.Now;
-            screen.EstRelease = DateTime.Now;
+            screen.EstCompletion = DateTime.UtcNow;
+            screen.EstRelease = DateTime.UtcNow;
             ScreenVM vm = IMapper.Map<Screen, ScreenVM>(screen);
             vm.IsEdit = true;
             return PartialView("_CreateOrEditProject", vm);
@@ -164,8 +164,8 @@ namespace ProjectManagr.Controllers
             Screen screen = new Screen();
             screen.Name = "Related Well";
             screen.TechLead = "Selva";
-            screen.EstCompletion = DateTime.Now;
-            screen.EstRelease = DateTime.Now;
+            screen.EstCompletion = DateTime.UtcNow;
+            screen.EstRelease = DateTime.UtcNow;
             ScreenVM vm = IMapper.Map<Screen, ScreenVM>(screen);
             vm.IsEdit = true;
             return PartialView("_ViewProject", vm);
@@ -177,8 +177,8 @@ namespace ProjectManagr.Controllers
             Screen screen = new Screen();
             screen.Name = "Related Well";
             screen.TechLead = "Selva";
-            screen.EstCompletion = DateTime.Now;
-            screen.EstRelease = DateTime.Now;
+            screen.EstCompletion = DateTime.UtcNow;
+            screen.EstRelease = DateTime.UtcNow;
             ScreenVM vm = IMapper.Map<Screen, ScreenVM>(screen);
             vm.IsEdit = true;
             return PartialView("_DeleteProject", vm);

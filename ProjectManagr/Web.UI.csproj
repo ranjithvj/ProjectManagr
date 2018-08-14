@@ -345,6 +345,10 @@
       <Project>{1565AE50-18F9-45A3-978C-2E3261BB042F}</Project>
       <Name>Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Repositories\Repositories.csproj">
+      <Project>{0DF84EC4-458F-4A15-A72D-73B0E5F5D4FB}</Project>
+      <Name>Repositories</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServiceInterfaces\ServiceInterfaces.csproj">
       <Project>{77EBA7B8-BFE2-4D2C-A813-2425D25C3FF8}</Project>
       <Name>ServiceInterfaces</Name>

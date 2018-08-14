@@ -197,9 +197,12 @@ namespace ProjectManagr.Controllers
                     return PartialView("_AddProject", obj);
                 }
 
+                Project data = TransferData(obj);
+                _projectService.Insert(data);
+
                 JsonResult result = new JsonResult
                 {
-                    Data = new { status = "success", project = obj },
+                    Data = new { status = "success", project = new ProjectVM(data)},
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
                 return result;
@@ -210,6 +213,18 @@ namespace ProjectManagr.Controllers
                 this.PopulateDropdowns(obj);
                 return View("_AddProject", obj);
             }
+        }
+
+        public ActionResult GetProject(int id)
+        {
+            Project detail = _projectService.Get(id);
+            ProjectVM vm = new ProjectVM(detail);
+
+            return new JsonResult
+            {
+                Data = new { project = vm },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
         #region Helpers

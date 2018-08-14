@@ -1,4 +1,5 @@
 ﻿using Models;
+using Repositories.Cache;
 using RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,14 @@ using Utilities;
 
 namespace Repositories
 {
-    public class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository : BaseRepository, IDepartmentRepository
     {
+        private CacheHelper _cacheHelper;
+        public DepartmentRepository()
+        {
+            _cacheHelper = CacheHelper.GetInstance();
+        }
+
         public void Delete(int id)
         {
             using (var context = new PmDbContext())
@@ -22,11 +29,21 @@ namespace Repositories
         List<Department> IRepository<Department>.GetAll()
         {
             List<Department> items;
-            using (var context = new PmDbContext())
+
+            //Check in cache
+            items = _cacheHelper.GetAll<Department>();
+
+            if (items == null)
             {
-                items = context.Departments.ToList();
-                return items;
+                using (var context = new PmDbContext())
+                {
+                    items = context.Departments.ToList();
+
+                    //Add in cache
+                    items.ForEach(x => _cacheHelper.AddOrUpdate<Department>(x.Id, x));
+                }
             }
+            return items;
         }
 
         Department IRepository<Department>.Get(int id)
@@ -44,7 +61,7 @@ namespace Repositories
             using (var context = new PmDbContext())
             {
                 context.Departments.Add(item);
-                context.SaveChanges();
+                base.Insert<Department>(item, item.Id, context);
             }
         }
 

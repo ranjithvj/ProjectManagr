@@ -160,8 +160,8 @@ function OnSuccessfulProjectSiteUpdate(data) {
     }
     $('#createProjectSiteModal').modal('hide');
     $('#createProjectSiteContainer').html("");
-    //assetListVM.refresh();
-    //TODO : Refresh your Datatable!!!!!!!!!!!
+    var table = $("#screenTable").DataTable();
+    table.ajax.reload();
 }
 
 function OnSuccessfulProjectSiteDelete(data) {
@@ -171,8 +171,8 @@ function OnSuccessfulProjectSiteDelete(data) {
     }
     $('#deleteProjectSiteModal').modal('hide');
     $('#deleteProjectSiteContainer').html("");
-    //assetListVM.refresh();
-    //TODO : Refresh your Datatable!!!!!!!!!!!
+    var table = $("#screenTable").DataTable();
+    table.ajax.reload();
 }
 
 
@@ -185,11 +185,6 @@ function InitializeProjectEvents() {
         $.get(url, function (data) {
             $('#createProjectContainer').html(data);
             $('#createProjectModal').modal('show');
-
-            //Handle Close
-            $("#projectClose").on("click", function () {
-                $('#createProjectModal').modal('hide');
-            });
         });
     });
 }
@@ -206,14 +201,7 @@ function OnSuccessfulProjectAddition(data) {
 
     //Set value in Project Site screen
     if (data.project != null) {
-        $('#ProjectId').val(0);
-        $('#Code').val(data.project.Code);
-        $('#Name').val(data.project.Name);
-        $('#Description').val(data.project.Description);
-        $('#PmName').val(data.project.PmName);
-        $('#ApplicationName').val(data.project.ApplicationName);
-        $('#SubPortfolioId').val(data.project.SubPortfolioId);
-        $('#SubPortfolioIdRef').val(data.project.SubPortfolioId);
+        PopulateProjectFields(data)
 
         //Add value to Project name dropdown
         $("#ProjectId option[value = '']").remove()
@@ -222,10 +210,44 @@ function OnSuccessfulProjectAddition(data) {
         $('#ProjectId').append($(option));
 
         $("#ProjectId").val("0");
-        
     }
+}
 
+function ProjectDropdownchange() {
+    var url = $("#projectChangeUrl").val();
+    var projectId = $("#ProjectId option:selected").val();
 
+    if (projectId === "") {
+        ClearProjectFields();
+    }
+    else {
+        $.get(url, { id: projectId }, function (data) {
+            PopulateProjectFields(data)
+        });
+    }
+}
+
+function PopulateProjectFields(data) {
+
+    $('#ProjectId').val(data.project.Id);
+    $('#Code').val(data.project.Code);
+    $('#Name').val(data.project.Name);
+    $('#Description').val(data.project.Description);
+    $('#PmName').val(data.project.PmName);
+    $('#ApplicationName').val(data.project.ApplicationName);
+    $('#SubPortfolioId').val(data.project.SubPortfolioId);
+    $('#SubPortfolioIdRef').val(data.project.SubPortfolioId);
+}
+
+function ClearProjectFields() {
+    $('#ProjectId').val("");
+    $('#Code').val("");
+    $('#Name').val("");
+    $('#Description').val("");
+    $('#PmName').val("");
+    $('#ApplicationName').val("");
+    $('#SubPortfolioId').val("");
+    $('#SubPortfolioIdRef').val("");
 }
 
 function ParseDate(data) {

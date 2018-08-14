@@ -8,244 +8,228 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Project Details</h4>
+            <h4 class="modal-title">Project Site Details</h4>
         </div>
 
         <div class="modal-body">
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.ProjectId)
-                </dt>
+            <div class="dl-horizontal">
 
-                <dd>
-                    @Html.DisplayFor(model => model.ProjectId)
-                </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Code)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Code)
-                </dd>
+                    <div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.Name)</b>
+                    </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.Name)
+                    </div>
+                </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.Code)</b>
+                    </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.Code)
+                    </div>
+                </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.PmName)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.Description)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.PmName)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.Description)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.ApplicationName)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.PmName)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.ApplicationName)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.PmName)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.SubPortfolioId)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.ApplicationName)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.SubPortfolioId)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.ApplicationName)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.SubPortfolioName)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.SubPortfolioName)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.SubPortfolioName)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.SubPortfolioName)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.EntityStatusId)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.EntityStatusName)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.EntityStatusId)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.EntityStatusName)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.EntityStatusName)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.CountryName)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.EntityStatusName)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.CountryName)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.CountryId)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.SiteName)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.CountryId)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.SiteName)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.CountryName)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.SiteItmFeedbackName)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.CountryName)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.SiteItmFeedbackName)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.SiteId)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.DepartmentName)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.SiteId)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.DepartmentName)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.SiteName)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.ApplicationTypeName)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.SiteName)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.ApplicationTypeName)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.SiteItmFeedbackId)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.Apex)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.SiteItmFeedbackId)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.Apex)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.SiteItmFeedbackName)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.PotentialValue)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.SiteItmFeedbackName)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.PotentialValue)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.DepartmentId)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.SiteItm)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.DepartmentId)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.SiteItm)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.DepartmentName)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.SiteEngagementStart)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.DepartmentName)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.SiteEngagementStart)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.ApplicationTypeId)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.SiteEngagementEnd)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.ApplicationTypeId)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.SiteEngagementEnd)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.ApplicationTypeName)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.HasBusinessImpact)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.ApplicationTypeName)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.HasBusinessImpactRef)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Apex)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.CommentsAndIssues)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Apex)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.CommentsAndIssues)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.PotentialValue)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.IsResourceRequired)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.PotentialValue)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.IsResourceRequiredRef)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.SiteItm)
-                </dt>
+                <div class="row">
+                    <div class="col-md-1"></div><div class="col-md-5 text-right">
+                        <b>@Html.DisplayNameFor(model => model.Attachment)</b>
+                    </div>
 
-                <dd>
-                    @Html.DisplayFor(model => model.SiteItm)
-                </dd>
+                    <div class="col-md-5">
+                        @Html.DisplayFor(model => model.Attachment)
+                    </div>
+                </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.SiteEngagementStart)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.SiteEngagementStart)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.SiteEngagementEnd)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.SiteEngagementEnd)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.HasBusinessImpact)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.HasBusinessImpact)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.CommentsAndIssues)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.CommentsAndIssues)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.IsResourceRequired)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.IsResourceRequired)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Attachment)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Attachment)
-                </dd>
-
-            </dl>
+            </div>
         </div>
     </div>
 </div>

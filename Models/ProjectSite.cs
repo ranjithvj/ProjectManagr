@@ -45,9 +45,9 @@ namespace Models
         public string SiteItm { get; set; }
         public DateTime? SiteEngagementStart { get; set; }
         public DateTime? SiteEngagementEnd { get; set; }
-        public string HasBusinessImpact { get; set; } //Y or N : Yes or No -- ~Handle in C#
+        public bool HasBusinessImpact { get; set; } //Y or N : Yes or No -- ~Handle in C#
         public string CommentsAndIssues { get; set; }
-        public string IsResourceRequired { get; set; } //Y or N : Yes or No  -- ~Handle in c#
+        public bool IsResourceRequired { get; set; } //Y or N : Yes or No  -- ~Handle in c#
         public string Attachment { get; set; }
 
 

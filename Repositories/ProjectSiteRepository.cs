@@ -68,13 +68,13 @@ namespace Repositories
             using (var context = new PmDbContext())
             {
                 item.IsActive = true;
-                item.CreatedDate = DateTime.Now;
-                item.ModifiedDate = DateTime.Now;
+                item.CreatedDate = DateTime.UtcNow;
+                item.ModifiedDate = DateTime.UtcNow;
                 if(item.ProjectId==0)
                 {
                     item.Project.IsActive = true;
-                    item.Project.CreatedDate = DateTime.Now;
-                    item.Project.ModifiedDate = DateTime.Now;
+                    item.Project.CreatedDate = DateTime.UtcNow;
+                    item.Project.ModifiedDate = DateTime.UtcNow;
                 }
                 context.ProjectSites.Add(item);
                 context.SaveChanges();
@@ -87,7 +87,7 @@ namespace Repositories
             {
                 ProjectSite originalItem = context.ProjectSites.FirstOrDefault(x => x.Id == item.Id);
                 Helper.TransferData(item, originalItem);
-                originalItem.ModifiedDate = DateTime.Now;
+                originalItem.ModifiedDate = DateTime.UtcNow;
                 context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
             }
@@ -111,7 +111,7 @@ namespace Repositories
             {
                 ProjectSite item = context.ProjectSites.FirstOrDefault(x => x.Id == id);
                 item.IsActive = false;
-                item.ModifiedDate = DateTime.Now;
+                item.ModifiedDate = DateTime.UtcNow;
                 item.ModifiedBy = deletedBy;
                 context.Entry(item).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();

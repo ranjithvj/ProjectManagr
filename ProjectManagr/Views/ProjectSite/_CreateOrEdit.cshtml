@@ -33,7 +33,8 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.ProjectId, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
-                            @Html.DropDownListFor(model => model.ProjectId, Model.Projects, "Select one", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.ProjectId, Model.Projects, "Select one", 
+                           new { @class = "form-control", @onchange = "ProjectDropdownchange()" })
                             @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2">
@@ -47,7 +48,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-5" })
-                        <div class="col-md-5">
+                           <div class="col-md-5">
                             @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
                         </div>
@@ -64,7 +65,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.PmName, htmlAttributes: new { @class = "control-label col-md-5 required" })
+                        @Html.LabelFor(model => model.PmName, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-5">
                             @Html.EditorFor(model => model.PmName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.PmName, "", new { @class = "text-danger" })
@@ -82,9 +83,9 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.SubPortfolioId, htmlAttributes: new { @class = "control-label col-md-5 required" })
+                        @Html.LabelFor(model => model.SubPortfolioId, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-5">
-                            @Html.DropDownListFor(model => model.SubPortfolioId, Model.SubPortfolios, "Select one", new { @class = "form-control", @readonly = "readonly" })
+                            @Html.DropDownListFor(model => model.SubPortfolioId, Model.SubPortfolios, "Select one", new { @class = "form-control", @disabled = "disabled" })
                             @Html.HiddenFor(x => x.SubPortfolioIdRef)
                             @Html.ValidationMessageFor(model => model.SubPortfolioId, "", new { @class = "text-danger" })
                         </div>
@@ -193,10 +194,10 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.HasBusinessImpact, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-2">
-                            @Html.RadioButtonFor(model => model.HasBusinessImpact, 1, new { @class = "form-check-input" }) Yes
+                            @Html.RadioButtonFor(model => model.HasBusinessImpact, true, new { @class = "form-check-input" }) Yes
                         </div>
                         <div class="col-md-2">
-                            @Html.RadioButtonFor(model => model.HasBusinessImpact, 0, new { @class = "form-check-input" }) No
+                            @Html.RadioButtonFor(model => model.HasBusinessImpact, false, new { @class = "form-check-input" }) No
                             @Html.ValidationMessageFor(model => model.HasBusinessImpact, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-3"></div>
@@ -214,10 +215,10 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.IsResourceRequired, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-2">
-                            @Html.RadioButtonFor(model => model.IsResourceRequired, 1, new { @class = "form-check-input" }) Yes
+                            @Html.RadioButtonFor(model => model.IsResourceRequired, true, new { @class = "form-check-input" }) Yes
                         </div>
                         <div class="col-md-2">
-                            @Html.RadioButtonFor(model => model.IsResourceRequired, 0, new { @class = "form-check-input" }) No
+                            @Html.RadioButtonFor(model => model.IsResourceRequired, false, new { @class = "form-check-input" }) No
                             @Html.ValidationMessageFor(model => model.IsResourceRequired, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-3"></div>

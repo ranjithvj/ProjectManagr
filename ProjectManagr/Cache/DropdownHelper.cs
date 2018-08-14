@@ -43,11 +43,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<EntityStatus> allEntityStatus = new List<EntityStatus>();
-
-                //if cache is present take from there
-                //else
-                allEntityStatus = _entityStatusService.GetAll();
+                List<EntityStatus> allEntityStatus = _entityStatusService.GetAll();
                 List<SelectListItem> dropdown = allEntityStatus
                     .Select(x => new SelectListItem
                     {
@@ -63,9 +59,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Project> allProjects = new List<Project>();
-
-                allProjects = _projectService.GetAll();
+                List<Project> allProjects =  _projectService.GetAll();
                 List<SelectListItem> dropdown = allProjects
                     .Select(x => new SelectListItem
                     {
@@ -81,9 +75,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<ApplicationType> items = new List<ApplicationType>();
-
-                items = _applicationTypeService.GetAll();
+                List<ApplicationType> items =  _applicationTypeService.GetAll();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -99,9 +91,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Country> items = new List<Country>();
-
-                items = _countryService.GetAll();
+                List<Country> items = _countryService.GetAll();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -117,9 +107,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Department> items = new List<Department>();
-
-                items = _departmentService.GetAll();
+                List<Department> items = _departmentService.GetAll();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -135,9 +123,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<SiteItmFeedback> items = new List<SiteItmFeedback>();
-
-                items = _siteItmFeedbackService.GetAll();
+                List<SiteItmFeedback> items =  _siteItmFeedbackService.GetAll();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -153,9 +139,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Site> items = new List<Site>();
-
-                items = _siteService.GetAll();
+                List<Site> items = _siteService.GetAll();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -171,9 +155,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<SubPortfolio> items = new List<SubPortfolio>();
-
-                items = _subportfolioService.GetAll();
+                List<SubPortfolio> items = _subportfolioService.GetAll();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {

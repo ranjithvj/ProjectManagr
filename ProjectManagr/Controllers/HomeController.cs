@@ -1,4 +1,6 @@
-﻿using ProjectManagr.ViewModels;
+﻿using Models;
+using ProjectManagr.ViewModels;
+using ServiceInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,12 @@ namespace ProjectManagr.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IProjectSiteService _projectSiteService;
+
+        public HomeController(IProjectSiteService projectSiteService)
+        {
+            _projectSiteService = projectSiteService;
+        }
         public ActionResult Index()
         {
             return View();
@@ -16,7 +24,9 @@ namespace ProjectManagr.Controllers
 
         public JsonResult Get()
         {
-            List<ProjectVM> data = new List<ProjectVM>();
+            List<ProjectSite> data = _projectSiteService.GetAll();
+            List<ProjectSiteVM> chartsData = new List<ProjectSiteVM>();
+            data.ForEach(x => chartsData.Add(new ProjectSiteVM(x)));
             List<string> colors = new List<string> { "#F5B041"
                                   ,"#2ECC71"
                                   ,"#273746"
@@ -28,17 +38,6 @@ namespace ProjectManagr.Controllers
                                   ,"#6C3483"
                                   , "#D8076C"};
 
-            for (int i = 0; i < 10; i++)
-            {
-                ProjectVM project = new ProjectVM();
-                //project.ProjectName = "Project " + i;
-                //project.SiteEngagementStart = DateTime.Today.AddMonths(-i);
-                //project.SiteEngagementEnd = DateTime.Today.AddMonths(i);
-                //project.Site = "Buenos Aires (BAR)";
-                //project.EntityStatus = "S&I";
-                //project.EntityStatusColor = colors[i];
-                data.Add(project);
-            }
 
             //data = data.Where(x => x.SiteEngagementStart >= DateTime.Parse(startDate) && x.SiteEngagementEnd <= DateTime.Parse(endDate)).ToList();
 
