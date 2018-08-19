@@ -10,7 +10,8 @@ namespace ProjectManagr.ViewModels
     {
         public ProjectSiteVM()
         {
-
+            //Default
+            this.HasBusinessImpact = true;
         }
         public ProjectSiteVM(ProjectSite obj)
         {
@@ -48,16 +49,19 @@ namespace ProjectManagr.ViewModels
                 {
                     this.EntityStatusId = obj.EntityStatus.Id;
                     this.EntityStatusName = obj.EntityStatus.Name;
+                    this.ColorCode = obj.EntityStatus.ColorCode;
+
                 }
-                if (obj.Country != null)
-                {
-                    this.CountryId = obj.Country.Id;
-                    this.CountryName = obj.Country.Name;
-                }
+
                 if (obj.Site != null)
                 {
                     this.SiteId = obj.Site.Id;
                     this.SiteName = obj.Site.Name;
+                    if (obj.Site.Country != null)
+                    {
+                        this.CountryId = obj.Site.Country.Id;
+                        this.CountryName = obj.Site.Country.Name;
+                    }
                 }
                 if (obj.SiteItmFeedback != null)
                 {
@@ -84,7 +88,7 @@ namespace ProjectManagr.ViewModels
         [Required(ErrorMessage = "This is a required field")]
         public int ProjectId { get; set; }
 
-        [Display(Name = "Project ID Number")]
+        [Display(Name = "Project ID")]
         public string Code { get; set; }
 
         [Display(Name = "Project")]
@@ -97,10 +101,10 @@ namespace ProjectManagr.ViewModels
         [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
         public string PmName { get; set; } //todo: need to add range validation
 
-        [Display(Name = "Application Name")]
+        [Display(Name = "Application")]
         public string ApplicationName { get; set; }
 
-        [Display(Name = "Sub Portfolio Name")]
+        [Display(Name = "Sub Portfolio")]
         public int SubPortfolioId { get; set; }
 
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
@@ -114,13 +118,15 @@ namespace ProjectManagr.ViewModels
 
         public string EntityStatusName { get; set; }
 
-        [Display(Name = "Country Name")]
+        public string ColorCode { get; set; }
+
+        [Display(Name = "Country")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         public int CountryId { get; set; }
 
         public string CountryName { get; set; }
 
-        [Display(Name = "Site Name")]
+        [Display(Name = "Site")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         public int SiteId { get; set; }
 
@@ -148,7 +154,8 @@ namespace ProjectManagr.ViewModels
 
         [Display(Name = "Potential Value")]
         [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
-        public string PotentialValue { get; set; }
+        [DataType(DataType.Currency, ErrorMessage = "Enter a valid currency value")]
+        public decimal? PotentialValue { get; set; }
 
         [Display(Name = "Site ITM")]
         public string SiteItm { get; set; }
@@ -162,9 +169,9 @@ namespace ProjectManagr.ViewModels
         public DateTime? SiteEngagementEnd { get; set; }
 
         [Display(Name = "Has Business Impact")]
-        public bool HasBusinessImpact { get; set; } //Y or N : Yes or No -- ~Handle in C#
+        public bool HasBusinessImpact { get; set; }
 
-        public string HasBusinessImpactRef
+        public string HasBusinessImpactRef //Details page
         {
             get
             {
@@ -181,17 +188,17 @@ namespace ProjectManagr.ViewModels
         public string CommentsAndIssues { get; set; }
 
         [Display(Name = "Is Resource Required")]
-        public bool IsResourceRequired { get; set; }//Y or N : Yes or No  -- ~Handle in c#
+        public bool? IsResourceRequired { get; set; }
 
-        public string IsResourceRequiredRef
+        public string IsResourceRequiredRef //Details page
         {
             get
             {
-                if(this.IsResourceRequired)
+                if (this.IsResourceRequired.HasValue && this.IsResourceRequired.Value)
                 {
                     return "Yes";
                 }
-                return "No";
+                return "No input";
             }
         }
 
@@ -202,6 +209,8 @@ namespace ProjectManagr.ViewModels
         public string ModifiedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+
+        public bool IsSelected { get; set; }
 
         #endregion
 
@@ -214,13 +223,17 @@ namespace ProjectManagr.ViewModels
         public List<SelectListItem> Sites { get; internal set; }
         public List<SelectListItem> SubPortfolios { get; internal set; }
         public List<SelectListItem> SiteItmFeedbacks { get; internal set; }
-
-
+        public Dictionary<int, List<int>> CountrySiteMap { get; set; }
         #endregion
 
         #region Validation
 
-       
+
         #endregion
+    }
+
+    public class ProjectSiteDeleteVM
+    {
+        public List<int> IdsToBeDeleted { get; set; }
     }
 }

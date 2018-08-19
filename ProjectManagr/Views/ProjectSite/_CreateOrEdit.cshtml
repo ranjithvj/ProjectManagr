@@ -1,7 +1,19 @@
 ﻿@model ProjectManagr.ViewModels.ProjectSiteVM
+
+@using System.Linq;
+
 @{
     Layout = null;
     var postMethod = "Create";
+
+
+    //Dictionary containing Mapping details of Country and Sites
+    var entries = Model.CountrySiteMap.Select(d =>
+       string.Format("\"{0}\": [{1}]", d.Key, string.Join(",", d.Value)));
+    var countrySiteMap = @Html.Raw("{" + string.Join(",", entries) + "}");
+    var countryList = @Html.Raw(Json.Encode(Model.Countries));
+    var siteList = @Html.Raw(Json.Encode(Model.Sites));
+    var isEdit = Model.IsEdit ? "true" : "false";
 }
 
 
@@ -21,7 +33,11 @@
                 postMethod = "Create";
             }
         </div>
-        @using (Ajax.BeginForm(postMethod, "ProjectSite", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessfulProjectSiteUpdate" }, new { @class = "form-horizontal", role = "form" }))
+
+        @Html.Hidden("CountrySiteMap", countrySiteMap)
+        @Html.Hidden("CountryList", countryList)
+        @Html.Hidden("SiteList", siteList)
+        @using (Ajax.BeginForm(postMethod, "ProjectSite", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessfulProjectSiteUpdate(data,"+ @isEdit + ")"}, new { @class = "form-horizontal", role = "form" }))
         {
             <div class="modal-body" id="ModalBody">
                 <div class="form-horizontal">
@@ -30,6 +46,7 @@
                     @Html.HiddenFor(model => model.IsActive)
                     @Html.HiddenFor(model => model.CreatedDate)
                     @Html.HiddenFor(model => model.ModifiedDate)
+
                     <div class="form-group">
                         @Html.LabelFor(model => model.ProjectId, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
@@ -104,7 +121,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
-                            @Html.DropDownListFor(model => model.CountryId, Model.Countries, "Select one", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.CountryId, Model.Countries, "Select one", new { @class = "form-control" , @onchange = "CountryDropdownchange()"  })
                             @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
@@ -113,7 +130,14 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.SiteId, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
+                            @if (Model.IsEdit)
+                            {
                             @Html.DropDownListFor(model => model.SiteId, Model.Sites, "Select one", new { @class = "form-control" })
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => model.SiteId, Model.Sites, "Select one", new { @class = "form-control", @disabled = "disabled" })
+                            }
                             @Html.ValidationMessageFor(model => model.SiteId, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
@@ -176,7 +200,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.SiteEngagementStart, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
-                            @Html.EditorFor(model => model.SiteEngagementStart, new { htmlAttributes = new { @class = "form-control", data_provide = "datepicker" } })
+                            @Html.EditorFor(model => model.SiteEngagementStart, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", data_provide = "datepicker" } })
                             @Html.ValidationMessageFor(model => model.SiteEngagementStart, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
@@ -185,7 +209,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.SiteEngagementEnd, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
-                            @Html.EditorFor(model => model.SiteEngagementEnd, new { htmlAttributes = new { @class = "form-control", data_provide = "datepicker" } })
+                            @Html.EditorFor(model => model.SiteEngagementEnd, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", data_provide = "datepicker" } })
                             @Html.ValidationMessageFor(model => model.SiteEngagementEnd, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
@@ -254,5 +278,3 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
-

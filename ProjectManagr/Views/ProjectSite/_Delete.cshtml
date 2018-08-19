@@ -1,7 +1,9 @@
-﻿@model ProjectManagr.ViewModels.ProjectSiteVM
+﻿@model ProjectManagr.ViewModels.ProjectSiteDeleteVM
 
 @{
     Layout = null;
+    var count = ViewBag.Count;
+    var message = count > 1 ? "records" : "record";
 }
 
 <div class="modal-dialog">
@@ -13,27 +15,15 @@
         </div>
 
         <div class="modal-body">
-            <h3>Are you sure you want to delete @Model.Name Project at @Model.SiteName ?</h3>
-            @*@using (Ajax.BeginForm("Delete", "ProjectSite", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessfulProjectSiteDelete" }, new { @class = "form-horizontal", role = "form" }))
-            {
-                <div class="form-actions no-color">
-                    @Html.HiddenFor(x => x.Id)
-                    <input type="submit" value="Delete" class="btn btn-default" />
-                </div>
-            }*@
+            <h4>Are you sure you want to delete @count @message?</h4>
         </div>
-
 
         <div class="modal-footer">
             <div class="form-group">
-            @using (Ajax.BeginForm("Delete", "ProjectSite", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessfulProjectSiteDelete" }, new { @class = "form-horizontal", role = "form" }))
-            {
                 <div class="col-md-offset-2 col-md-10">
-                    @Html.HiddenFor(x => x.Id)
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-danger" value="Delete" />
+                    <input type="submit" class="btn btn-danger" id ="btnConfirmDelete"value="Delete" />
                 </div>
-                }
             </div>
         </div>
     </div>

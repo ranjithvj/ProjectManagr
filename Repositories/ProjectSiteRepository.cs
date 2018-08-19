@@ -7,6 +7,7 @@ using Utilities;
 using System;
 using Models.DTO;
 using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace Repositories
 {
@@ -17,8 +18,8 @@ namespace Repositories
             ProjectSite returnValue;
             using (var context = new PmDbContext())
             {
-                returnValue = IncludeAllChild(context)
-                    .FirstOrDefault(x => x.IsActive && x.Id == id);
+                returnValue = IncludeAllChildForProjectSite(context)
+                    .FirstOrDefault(x=>x.Id == id);
             }
             return returnValue;
         }
@@ -28,39 +29,21 @@ namespace Repositories
             List<ProjectSite> projectSites;
             using (var context = new PmDbContext())
             {
-                projectSites = IncludeAllChild(context).Where(x => x.IsActive).ToList();
+                projectSites = IncludeAllChildForProjectSite(context).ToList();
                 return projectSites;
             }
         }
 
-        public FilterResponseDTO<ProjectSite> GetWithFilter(FilterRequestDTO request)
+        public List<ProjectSite> GetWithFilter(Expression<Func<ProjectSite, bool>> request)
         {
-            FilterResponseDTO<ProjectSite> response = new FilterResponseDTO<ProjectSite>();
+            List<ProjectSite> query = new List<ProjectSite>();
 
             using (var context = new PmDbContext())
             {
-                IQueryable<ProjectSite> query = IncludeAllChild(context).Where(x => x.IsActive);
-                response.TotalCount = query.Count(); // Todo : Check performance
-
-                //Search
-                if (!string.IsNullOrEmpty(request.SearchText))
-                {
-                    query = query.Where(x => x.Project != null && x.Project.Name.Contains(request.SearchText));
-                    //TODO: Confirm if this is enough or should you search using other columns as well
-                }
-
-                //Sort
-                query = query.OrderBy(request.OrderByString == string.Empty ? "Project.Name asc" : request.OrderByString);
-                //Todo: Need to do for all columns
-                response.FilteredCount = query.Count();
-
-                //Paging
-                query = query.Skip(request.RecordCountStart).Take(request.RecordCountLength);
-                response.Data = query.ToList();
-
+                query = IncludeAllChildForProjectSite(context).Where(request).ToList();
             }
 
-            return response;
+            return query;
         }
 
         public void Insert(ProjectSite item)
@@ -70,16 +53,29 @@ namespace Repositories
                 item.IsActive = true;
                 item.CreatedDate = DateTime.UtcNow;
                 item.ModifiedDate = DateTime.UtcNow;
-                if(item.ProjectId==0)
-                {
-                    item.Project.IsActive = true;
-                    item.Project.CreatedDate = DateTime.UtcNow;
-                    item.Project.ModifiedDate = DateTime.UtcNow;
-                }
+                
                 context.ProjectSites.Add(item);
                 context.SaveChanges();
             }
         }
+
+        public ProjectSite InsertWithReturn(ProjectSite item)
+        {
+            ProjectSite insertedRecord = null;
+            using (var context = new PmDbContext())
+            {
+                item.IsActive = true;
+                item.CreatedDate = DateTime.UtcNow;
+                item.ModifiedDate = DateTime.UtcNow;
+
+                context.ProjectSites.Add(item);
+                context.SaveChanges();
+                insertedRecord = IncludeAllChildForProjectSite(context).FirstOrDefault(x => x.Id == item.Id);
+            }
+
+            return insertedRecord;
+        }
+
 
         public void Update(ProjectSite item)
         {
@@ -93,7 +89,23 @@ namespace Repositories
             }
         }
 
-        
+        public ProjectSite UpdateWithReturn(ProjectSite item)
+        {
+            ProjectSite updatedRecord = null;
+            using (var context = new PmDbContext())
+            {
+                ProjectSite originalItem = context.ProjectSites.FirstOrDefault(x => x.Id == item.Id);
+                Helper.TransferData(item, originalItem);
+                originalItem.ModifiedDate = DateTime.UtcNow;
+                context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+
+                updatedRecord = IncludeAllChildForProjectSite(context).FirstOrDefault(x => x.Id == item.Id);
+            }
+            return updatedRecord;
+        }
+
+
         public void Delete(int id)
         {
             using (var context = new PmDbContext())
@@ -105,34 +117,39 @@ namespace Repositories
             }
         }
 
-        public void SoftDelete(int id, string deletedBy)
+        public void SoftDelete(List<int> ids, string deletedBy)
         {
             using (var context = new PmDbContext())
             {
-                ProjectSite item = context.ProjectSites.FirstOrDefault(x => x.Id == id);
-                item.IsActive = false;
-                item.ModifiedDate = DateTime.UtcNow;
-                item.ModifiedBy = deletedBy;
-                context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                List<ProjectSite> items = context.ProjectSites.Where(x => ids.Contains(x.Id)).ToList();
+                foreach (ProjectSite item in items)
+                {
+                    item.IsActive = false;
+                    item.ModifiedDate = DateTime.UtcNow;
+                    item.ModifiedBy = deletedBy;
+                    context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                }
                 context.SaveChanges();
             }
         }
         #region Helper
 
-        public IQueryable<ProjectSite> IncludeAllChild(PmDbContext context)
+        public IQueryable<ProjectSite> IncludeAllChildForProjectSite(PmDbContext context)
         {
             return context.ProjectSites
                     .Include(x => x.Project)
                     .Include(x => x.Project.SubPortfolio)
                     .Include(x => x.EntityStatus)
                     .Include(x => x.Site)
-                    .Include(x => x.Country)
+                    .Include(x => x.Site.Country)
                     .Include(x => x.SiteItmFeedback)
                     .Include(x => x.Department)
-                    .Include(x => x.ApplicationType);
+                    .Include(x => x.ApplicationType)
+                    .Where(x => x.IsActive);
         }
 
        
+
         #endregion
     }
 }

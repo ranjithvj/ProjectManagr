@@ -4,6 +4,7 @@ using RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
+using System.Data.Entity;
 
 namespace Repositories
 {
@@ -26,6 +27,7 @@ namespace Repositories
             }
         }
 
+        //Cache implemented only for GET ALL!!!
         List<Site> IRepository<Site>.GetAll()
         {
             List<Site> items;
@@ -37,7 +39,9 @@ namespace Repositories
             {
                 using (var context = new PmDbContext())
                 {
-                    items = context.Sites.ToList();
+                    items = context.Sites
+                        //.Include(x=>x.Country)
+                        .ToList();
 
                     //Add in cache
                     items.ForEach(x => _cacheHelper.AddOrUpdate<Site>(x.Id, x));

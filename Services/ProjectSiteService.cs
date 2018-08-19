@@ -5,6 +5,7 @@ using ServiceInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Services
 {
@@ -32,14 +33,8 @@ namespace Services
             return _projectSiteRepository.GetAll();
         }
 
-        public FilterResponseDTO<ProjectSite> GetWithFilter(FilterRequestDTO request)
+        public List<ProjectSite> GetWithFilter(Expression<Func<ProjectSite, bool>> request)
         {
-            if(request==null)
-            {
-                //TODO: Log Error!
-                return null;
-            }
-
             return _projectSiteRepository.GetWithFilter(request);
         }
 
@@ -48,9 +43,19 @@ namespace Services
             _projectSiteRepository.Insert(item);
         }
 
-        public void SoftDelete(int id, string deletedBy)
+        public ProjectSite InsertWithReturn(ProjectSite item)
         {
-            _projectSiteRepository.SoftDelete(id, deletedBy);
+            return _projectSiteRepository.InsertWithReturn(item);
+        }
+
+        public ProjectSite UpdateWithReturn(ProjectSite item)
+        {
+            return _projectSiteRepository.UpdateWithReturn(item);
+        }
+
+        public void SoftDelete(List<int> ids, string deletedBy)
+        {
+            _projectSiteRepository.SoftDelete(ids, deletedBy);
         }
 
         public void Update(ProjectSite item)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -12,11 +13,23 @@ namespace Models
         [ForeignKey("SubPortfolio")]
         public int SubPortfolioId { get; set; }
         public virtual SubPortfolio SubPortfolio { get; set; }
-
+        
+        [MaxLength(50)]
         public string Code { get; set; }
+
+        [MaxLength(50)]
+        [Required]
         public string Name { get; set; }
+
+        [MaxLength(100)]
         public string Description { get; set; }
+
+        [MaxLength(50)]
+        [Required]
         public string PmName { get; set; }
+
+        [MaxLength(50)]
+        [Required]
         public string ApplicationName { get; set; }
     }
 

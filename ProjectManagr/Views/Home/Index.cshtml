@@ -1,55 +1,54 @@
-﻿@{
+﻿@model ProjectManagr.ViewModels.DashboardVM
+@{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
+@using (Ajax.BeginForm("Get", "Home", null, new AjaxOptions { HttpMethod = "Post", OnBegin = "ValidateDashboardFilter",  OnSuccess = "OnChartFilterApplied" }, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="row">
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.SelectedSite, htmlAttributes: new { @class = "control-label col-md-4 required" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(model => model.SelectedSite, Model.Sites, "Select one", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SelectedSite, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-<br />
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-3">
-        <div class="row">
-            <div class="col-md-5">
-                <h5 style="float:right"> Site Name :</h5>
-            </div>
-            <div class="col-md-7">
-                <button class="btn btn-default dropdown-toggle" type="button" id="siteNameDrpDwn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Select a Site
-                    <span class="caret"></span>
-                </button>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-4 required" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", data_provide = "datepicker" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="row">
-            <div class="col-md-5">
-                <h5 style="float:right">Start Date :</h5>
-            </div>
-            <div class="col-md-7">
-                <input type="datetime" class="form-control text-box" data-provide="datepicker" id="filterFromDate" placeholder="Enter from date" />
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-4 required" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" , autocomplete = "off" , data_provide="datepicker"} })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="row">
-            <div class="col-md-5">
-                <h5 style="float:right"> End Date :</h5>
-            </div>
-            <div class="col-md-7">
-                <input type="datetime" class="form-control text-box" data-provide="datepicker" id="filterToDate" placeholder="Enter to date" />
-            </div>
-        </div>
-    </div>
-    <div class="col-md-1">
-        <button type="button" class="btn btn-default btn-md" id="dashBoardSearchBtn" data-url=@Url.Action("ReloadChart","Home")>
-        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-        </button>
-        </div>
-    </div>
 
-
-<br />
+        <div class="col-md-3">
+            <div class="col-md-4"></div>
+                <div class="col-md-8">
+                    <input type="submit" value="Create POAP" class="btn btn-primary" />
+                </div>
+            </div>
+    </div>
+}
+<p></p>
+<p></p>
 <div id="dashboard"></div>
 
+
+<link href="~/Content/Dashboard.css" rel="stylesheet" />
+
+<!-- Visualization JS Plugin -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
+@*  *@
+
 <script src="~/Scripts/Application/Dashboard.js"></script>
-<link href="~/Content/Common.css" rel="stylesheet" />

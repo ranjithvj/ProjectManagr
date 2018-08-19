@@ -5,6 +5,8 @@ using ProjectManagr.Cache;
 using ProjectManagr.ViewModels;
 using ServiceInterfaces;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
@@ -63,16 +65,27 @@ namespace ProjectManagr.Controllers
             return View();
         }
 
-        public JsonResult Get([ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
+        public JsonResult Get()//[ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
         {
-            FilterRequestDTO serviceRequest = this.CreateServiceRequest(requestModel);
+            // FilterRequestDTO serviceRequest = this.CreateServiceRequest(requestModel);
 
-            FilterResponseDTO<ProjectSite> serviceReponse = _projectSiteService.GetWithFilter(serviceRequest);
+            //TODO: This is the code for Server side processing
+            //FilterResponseDTO<ProjectSite> serviceReponse = _projectSiteService.GetWithFilter(serviceRequest);
+            Stopwatch sw = Stopwatch.StartNew();
+            List<ProjectSite> serviceReponse = _projectSiteService.GetAll();
+            sw.Stop();
+            var part1 = sw.ElapsedMilliseconds;
+            sw = Stopwatch.StartNew();
+            List<ProjectSiteVM> vmList = new List<ProjectSiteVM>();
+            //serviceReponse.Data.ForEach(x => data.Add(new ProjectSiteVM(x)));
+            serviceReponse.ForEach(x => vmList.Add(new ProjectSiteVM(x)));
+            sw.Stop();
+            var part2 = sw.ElapsedMilliseconds;
+            //return Json(new DataTablesResponse(requestModel.Draw, data, serviceReponse.FilteredCount, serviceReponse.TotalCount), JsonRequestBehavior.AllowGet);
 
-            List<ProjectSiteVM> data = new List<ProjectSiteVM>();
-            serviceReponse.Data.ForEach(x => data.Add(new ProjectSiteVM(x)));
-
-            return Json(new DataTablesResponse(requestModel.Draw, data, serviceReponse.FilteredCount, serviceReponse.TotalCount), JsonRequestBehavior.AllowGet);
+            var json = Json(new { data = vmList, time1 = part1, time2 = part2 });
+            json.MaxJsonLength = int.MaxValue;
+            return json;
         }
 
         // GET: ProjectSite/Details/5
@@ -105,9 +118,15 @@ namespace ProjectManagr.Controllers
 
                 ProjectSite projectSite = TransferData(obj);
 
-                _projectSiteService.Insert(projectSite);
+                ProjectSite insertedRecord = _projectSiteService.InsertWithReturn(projectSite);
 
-                return Content("success");
+                JsonResult result = new JsonResult
+                {
+                    Data = new { status = "success", projectsite = new ProjectSiteVM(insertedRecord) },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+
+                return result;
             }
             catch
             {
@@ -139,10 +158,15 @@ namespace ProjectManagr.Controllers
                 }
 
                 ProjectSite projectSite = TransferData(obj);
+                    
+                ProjectSite updatedSite = _projectSiteService.UpdateWithReturn(projectSite);
 
-                _projectSiteService.Update(projectSite);
-
-                return Content("success");
+                JsonResult result = new JsonResult
+                {
+                    Data = new { status = "success", projectsite = new ProjectSiteVM(updatedSite) },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+                return result;
             }
             catch
             {
@@ -153,21 +177,20 @@ namespace ProjectManagr.Controllers
         }
 
         // GET: ProjectSite/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DeleteWarning(int count)
         {
-            ProjectSite detail = _projectSiteService.Get(id);
-            ProjectSiteVM vm = new ProjectSiteVM(detail);
-            return PartialView("_Delete", vm);
+            ViewBag.Count = count;
+            return PartialView("_Delete");
         }
 
         // POST: ProjectSite/Delete/5
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteProjectSite(int id)
+        [HttpPost]
+        public ActionResult Delete(List<int> ids)
         {
             try
             {
                 string deletedby = System.Web.HttpContext.Current.User.Identity.Name;
-                _projectSiteService.SoftDelete(id, deletedby);
+                _projectSiteService.SoftDelete(ids, deletedby);
                 return Content("success");
             }
             catch
@@ -240,7 +263,6 @@ namespace ProjectManagr.Controllers
             projectsite.Id = obj.Id;
             projectsite.ProjectId = obj.ProjectId;
             projectsite.EntityStatusId = obj.EntityStatusId;
-            projectsite.CountryId = obj.CountryId;
             projectsite.SiteId = obj.SiteId;
             projectsite.SiteItmFeedbackId = obj.SiteItmFeedbackId;
             projectsite.DepartmentId = obj.DepartmentId;
@@ -271,21 +293,6 @@ namespace ProjectManagr.Controllers
             }
             projectsite.CreatedDate = obj.CreatedDate;
             projectsite.ModifiedDate = obj.ModifiedDate;
-
-            //Add a new Project if Id is 0
-            if(projectsite.ProjectId == 0)
-            {
-                projectsite.Project = new Project();
-                projectsite.Project.Code = obj.Code;
-                projectsite.Project.Name = obj.Name;
-                projectsite.Project.Description = obj.Description;
-                projectsite.Project.PmName = obj.PmName;
-                projectsite.Project.ApplicationName = obj.ApplicationName;
-                projectsite.Project.SubPortfolioId = obj.SubPortfolioIdRef;
-                projectsite.CreatedBy = System.Web.HttpContext.Current.User.Identity.Name;
-                projectsite.ModifiedBy = System.Web.HttpContext.Current.User.Identity.Name;
-
-            }
 
             return projectsite;
         }
@@ -318,6 +325,7 @@ namespace ProjectManagr.Controllers
             vm.SiteItmFeedbacks = _dropdownHelper.SiteItmFeedbacks;
             vm.Sites = _dropdownHelper.Sites;
             vm.SubPortfolios = _dropdownHelper.SubPortfolios;
+            vm.CountrySiteMap = _dropdownHelper.CountrySiteMap;
         }
 
         private void PopulateDropdowns(ProjectVM vm)

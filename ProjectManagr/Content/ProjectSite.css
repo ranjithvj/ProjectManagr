@@ -1,0 +1,121 @@
+﻿
+@media screen and (max-width: 1500px) {
+
+    body {
+        font-size: 12px;
+        padding-top: 50px;
+        padding-bottom: 20px;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+
+    .container {
+        max-width: 1700px;
+    }
+
+    #screenTable_wrapper thead th, #screenTable_wrapper thead td {
+        font-size: 12px;
+        padding: 6px 14px;
+        text-align: center;
+    }
+
+    #screenTable td {
+        font-size: 12px;
+        text-align: center;
+        padding: 8px 2px 8px 2px;
+    }
+
+    thead input {
+        width: 100%;
+    }
+
+    #selectAllCheckbox {
+        height: 15px;
+        width: 15px;
+    }
+
+    .rowlength{
+        padding-top: 0.755em;
+    }
+}
+
+
+
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-size: 12px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.searchbox {
+    width: 50px;
+    max-width: 180px;
+    padding: 0;
+}
+
+
+#createProjectContainer {
+    margin-top: 5vh;
+}
+
+    #createProjectContainer .modal-content {
+        max-width: 40vw;
+        margin: auto;
+    }
+
+#ModalBody {
+    max-height: 60vh;
+    overflow-y: scroll;
+}
+
+#ProjectModalBody {
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.modal-backdrop {
+    visibility: hidden !important;
+}
+
+.modal.in {
+    background-color: rgba(0,0,0,0.5);
+}
+
+.required:after {
+    content: "*";
+    font-weight: bold;
+    color: red;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+    font-size: 12px;
+    padding: 2px 2px;
+    text-align: center;
+}
+
+#screenTable a {
+    color:#333333; 
+}

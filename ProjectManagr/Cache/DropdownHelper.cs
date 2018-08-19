@@ -59,7 +59,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Project> allProjects =  _projectService.GetAll();
+                List<Project> allProjects = _projectService.GetAll();
                 List<SelectListItem> dropdown = allProjects
                     .Select(x => new SelectListItem
                     {
@@ -75,7 +75,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<ApplicationType> items =  _applicationTypeService.GetAll();
+                List<ApplicationType> items = _applicationTypeService.GetAll();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -91,7 +91,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Country> items = _countryService.GetAll();
+                List<Country> items = _countryService.GetCountriesWithSites();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -123,7 +123,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<SiteItmFeedback> items =  _siteItmFeedbackService.GetAll();
+                List<SiteItmFeedback> items = _siteItmFeedbackService.GetAll();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -164,6 +164,22 @@ namespace ProjectManagr.Cache
                     }).ToList();
 
                 return dropdown;
+            }
+        }
+
+        public Dictionary<int, List<int>> CountrySiteMap
+        {
+            get
+            {
+                Dictionary<int, List<int>> returnVal = new Dictionary<int, List<int>>();
+                List<Country> countries = _countryService.GetCountriesWithSites();
+
+                foreach(Country country in countries)
+                {
+                    List<int> siteIds = country.Site.Select(x => x.Id).ToList() ?? new List<int>();
+                    returnVal.Add(country.Id, siteIds);
+                }
+                return returnVal;
             }
         }
     }

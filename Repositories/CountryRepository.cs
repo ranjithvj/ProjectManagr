@@ -4,6 +4,8 @@ using RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
+using System.Data.Entity;
+using System;
 
 namespace Repositories
 {
@@ -37,7 +39,8 @@ namespace Repositories
             {
                 using (var context = new PmDbContext())
                 {
-                    items = context.Countries.ToList();
+                    items = context.Countries.Include(x => x.Site)
+                        .ToList();
 
                     //Add in cache
                     items.ForEach(x => _cacheHelper.AddOrUpdate<Country>(x.Id, x));
@@ -74,6 +77,33 @@ namespace Repositories
                 context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
             }
+        }
+
+        public List<Country> GetCountriesWithSites()
+        {
+            List<Country> items;
+
+            //Check in cache
+            items = _cacheHelper.GetAll<Country>()
+                     ?.Where(x => x.Site != null && x.Site.Count > 0)
+                     ?.ToList();
+
+            if (items == null)
+            {
+                using (var context = new PmDbContext())
+                {
+                    items = context.Countries.Include(x => x.Site)
+                        .ToList();
+
+                    //Add all items in cache to avoid losing data which got filtered
+                    items.ForEach(x => _cacheHelper.AddOrUpdate<Country>(x.Id, x));
+
+                    items = _cacheHelper.GetAll<Country>()
+                     .Where(x => x.Site != null && x.Site.Count > 0)
+                     .ToList();
+                }
+            }
+            return items;
         }
     }
 }

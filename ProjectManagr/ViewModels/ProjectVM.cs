@@ -29,7 +29,7 @@ namespace ProjectManagr.ViewModels
 
         #region Properties
 
-        [Display(Name = "Project ID Number")]
+        [Display(Name = "Project ID")]
         public string Code { get; set; }
 
         [Display(Name = "Project Name")]
@@ -44,9 +44,10 @@ namespace ProjectManagr.ViewModels
         public string PmName { get; set; } //todo: need to add range validation
 
         [Display(Name = "Application Name")]
+        [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
         public string ApplicationName { get; set; }
 
-        [Display(Name = "Sub Portfolio Name")]
+        [Display(Name = "Sub Portfolio")]
         [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         [Required(ErrorMessage = "This is a required field")]
         public int SubPortfolioId { get; set; }

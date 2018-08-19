@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models
@@ -14,11 +15,6 @@ namespace Models
         public int EntityStatusId { get; set; }
 
         public virtual EntityStatus EntityStatus { get; set; }
-
-        [ForeignKey("Country")]
-        public int CountryId { get; set; }
-
-        public virtual Country Country { get; set; }
 
         [ForeignKey("Site")]
         public int SiteId { get; set; }
@@ -40,16 +36,28 @@ namespace Models
 
         public virtual ApplicationType ApplicationType { get; set; }
 
+        [MaxLength(50)]
         public string Apex { get; set; }
-        public string PotentialValue { get; set; }
+        
+        [Required]
+        public decimal? PotentialValue { get; set; }
+
         public string SiteItm { get; set; }
+
+        [Required]
         public DateTime? SiteEngagementStart { get; set; }
+
+        [Required]
         public DateTime? SiteEngagementEnd { get; set; }
-        public bool HasBusinessImpact { get; set; } //Y or N : Yes or No -- ~Handle in C#
+
+        public bool HasBusinessImpact { get; set; } 
+
+        [MaxLength(100)]
         public string CommentsAndIssues { get; set; }
-        public bool IsResourceRequired { get; set; } //Y or N : Yes or No  -- ~Handle in c#
+
+        public bool? IsResourceRequired { get; set; }
+
+        [MaxLength(100)]
         public string Attachment { get; set; }
-
-
     }
 }

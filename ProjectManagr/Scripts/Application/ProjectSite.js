@@ -1,25 +1,36 @@
-﻿$(document).ready(function () {
-    $("#screenTable").DataTable({
-        "info": "false",
-        "bLengthChange": false,
-        "serverSide": true,
-        "processing": true,
+﻿var grid;
+
+$(document).ready(function () {
+
+    //Add search box across all columns of the grid
+    AddSearchBoxAndSelectAllCheckbox()
+
+    grid = $("#screenTable").DataTable({
+        "scrollX": true,
+        "fixedHeader": true,
+        "orderCellsTop": true,
         "ajax": {
             "url": $('#getUrl').val(),
             "type": "POST"
         },
         "columns": [
-            { "title": "Id", "data": "Id" },
+            {
+                "title": "", "data": "IsSelected",
+                "render": function (data, type, full) {
+                    return ''
+                }
+            },
+            { "title": "No.", "data": null },
             { "title": "Entity Status", "data": "EntityStatusName" },
-            { "title": "Project ID Number", "data": "Code" },
+            { "title": "Project ID", "data": "Code" },
             { "title": "Project Name", "data": "Name" },
-            { "title": "PM / ADL / Planner", "data": "PmName" },
-            { "title": "Sub Portfolio Name", "data": "SubPortfolioName" },
-            { "title": "Site Name", "data": "SiteName" },
+            { "title": "PM/ADL /Planner", "data": "PmName", "width": "5%" },
+            { "title": "Sub Portfolio", "data": "SubPortfolioName" },
+            { "title": "Site", "data": "SiteName" },
             { "title": "Site ITM", "data": "SiteItm" },
             { "title": "Site ITM Feedback", "data": "SiteItmFeedbackName" },
             {
-                "title": "Site Engagement Start Date",
+                "title": "Eng. Start",
                 "data": "SiteEngagementStart",
                 "render": function (data) {
                     var date = new Date(parseInt(data.replace(/\/Date\((-?\d+)\)\//gi, "$1")));
@@ -28,7 +39,7 @@
                 }
             },
             {
-                "title": "Site Engagement End Date",
+                "title": "Eng. End",
                 "data": "SiteEngagementEnd",
                 "render": function (data) {
                     var date = new Date(parseInt(data.replace(/\/Date\((-?\d+)\)\//gi, "$1")));
@@ -46,6 +57,7 @@
                     return (month.length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                 }
             },
+
             {
                 "title": "Actions",
                 "data": "Id",
@@ -53,47 +65,126 @@
                 "sortable": false,
                 "render": function (data, type, full, meta) {
                     var editUrl = $('#editUrl').val() + '?id=' + data;
-                    var deleteUrl = $('#deleteUrl').val() + '?id=' + data;
                     var detailsUrl = $('#detailsUrl').val() + '?id=' + data;
-                    return '<a href=' + detailsUrl + ' class="detailsProject" ><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a> | <a href=' + editUrl + ' class="editProject"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>  | <a href=' + deleteUrl + ' class="deleteProject"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+                    return '<a href=' + detailsUrl + ' class="detailsProject" ><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a> | <a href=' + editUrl + ' class="editProject"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
                 }
-            }
+            },
+            { "title": "Id", "data": "Id" },
+
         ],
         "columnDefs": [
+            {
+                "orderable": false,
+                "className": 'select-checkbox',
+                "targets": 0,
+                "width": "2%",
+            },
+            {
+                "orderable": false,
+                "searchable": false,
+                "targets": 1,
+                "width": "2%",
+                "visible": false
+            },
+            {
+                "targets": [2],
+                "width": "6%",
+                "render": $.fn.dataTable.render.ellipsis(10, true)
+            }
+           ,
            {
-               "targets": [0],
-               "visible": false,
+               "targets": [3],
+               "width": "5%",
+               "render": $.fn.dataTable.render.ellipsis(10, true)
+           },
+            {
+                "targets": [4],
+                "width": "10%",
+                "render": $.fn.dataTable.render.ellipsis(15, true)
+            }
+           ,
+           {
+               "targets": [5],
+               "width": "15%",
+               "render": $.fn.dataTable.render.ellipsis(15, true)
+           },
+           {
+               "targets": [6],
+               "width": "5%",
+               "render": $.fn.dataTable.render.ellipsis(10, true)
            }
+           ,
+           {
+               "targets": [7],
+               "width": "5%",
+               "render": $.fn.dataTable.render.ellipsis(10, true)
+           },
+            {
+                "targets": [8],
+                "width": "5%",
+                "render": $.fn.dataTable.render.ellipsis(12, true)
+            },
+            {
+                "targets": [9],
+                "width": "5%",
+                "render": $.fn.dataTable.render.ellipsis(10, true)
+            }
+           ,
+           {
+               "targets": [10],
+               "width": "5%",
+               "render": $.fn.dataTable.render.ellipsis(11, true)
+           },
+            {
+                "targets": [11],
+                "width": "5%",
+                "render": $.fn.dataTable.render.ellipsis(11, true)
+            },
+            {
+                "targets": [12],
+                "width": "5%",
+                "render": $.fn.dataTable.render.ellipsis(10, true)
+            },
+            {
+                "targets": [15],
+                "visible": false,
+            },
+            {
+                "targets": [14],
+                "width": "5%",
+                "render": $.fn.dataTable.render.ellipsis(11, true)
+            },
         ],
+        "select": {
+            "style": 'multi',
+            "selector": 'td:first-child'
+        },
+        "order": [[4, 'asc']],
         //For aligning the components
-        "dom": 'f<"toolbar">rtip',
+        "dom": '<"toolbar">rt<"row" <"col-md-6"i><"col-md-2 rowlength"l><"col-md-4"p>>',
         //To remove Search Label
         "oLanguage": {
             "sSearch": ""
-        },
-        //Add Search button instead of calling server for every keystroke
-        initComplete: function () {
-            var input = $('.dataTables_filter input').unbind(),
-                self = this.api(),
-                $searchButton = $('<button type="button" class="btn btn-default btn-md" id="dataTableSearchBtn"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>')
-                           .click(function () {
-                               self.search(input.val()).draw();
-                           })
-
-            $('.dataTables_filter').append($searchButton);
         }
     });
 
-    //Add Search placeholder
-    $('.dataTables_filter input').attr('id', 'dataTablesSearchbox');
-    $("#dataTablesSearchbox").attr("placeholder", "Search");
-
     //Add new button
     var createUrl = $('#createUrl').val();
-    $("div.toolbar").html('<button type="button" class="btn btn-default btn-md" data-toggle="modal" ' +
+    var deleteUrl = $('#deleteRequestUrl').val();
+    $("div.toolbar").append('<br>')
+
+    $("div.toolbar").html('<div class="row"><div class="col-md-1"><button type="button" class="btn btn-default btn-md" data-toggle="modal" ' +
         'data-url="' + createUrl + '" id="btnCreateProjectSite">' +
     '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' +
-    'Add Project Site</button>');
+    'Add New</button></div>' +
+
+    '<div class="col-md-1"><button type="button" class="btn btn-default btn-md" ' +
+        'data-url="' + deleteUrl + '" id="btnDeleteSelected">' +
+    '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ' +
+    'Delete Selected </button></div></div>'
+     );
+
+    $("div.toolbar").append('<br>')
 
     //Open up the Add partial View
     $("#btnCreateProjectSite").on("click", function () {
@@ -106,16 +197,44 @@
         });
     });
 
+    //Open up the Delete 
+    $("#btnDeleteSelected").on("click", function () {
+        var url = $(this).data("url");
+        var rows = grid.rows({ selected: true });
+        var result = grid.cells(rows.nodes(), 15).data().toArray();
+
+        if (result.length == 0) {
+            NotifyError("Please select atleast 1 record to delete");
+            return;
+        }
+
+        $.get(url, { count: result.length }, function (data) {
+            $('#deleteProjectSiteContainer').html(data);
+            $('#deleteProjectSiteModal').modal('show');
+
+            var postUrl = $('#deleteUrl').val();
+
+            $("#btnConfirmDelete").on("click", function () {
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    traditional: true,
+                    data: { ids: result },
+                }).done(function (data) {
+                    OnSuccessfulProjectSiteDelete(result);
+                });;
+            });
+        });
+    });
+
 });
 
+//For having nested popups
 $(document).on('hidden.bs.modal', function (event) {
     if ($('.modal:visible').length) {
         $('body').addClass('modal-open');
     }
 });
-
-
-
 
 //Details Section
 $('#screenTable').on("click", ".detailsProject", function (event) {
@@ -137,44 +256,140 @@ $('#screenTable').on("click", ".editProject", function (event) {
     $.get(url, function (data) {
         $('#createProjectSiteContainer').html(data);
         $('#createProjectSiteModal').modal('show');
+        //Handle Country/Site dependant dropdown functionality
+        CountryDropdownchange();
     });
-
 });
 
-//Delete Section
-$('#screenTable').on("click", ".deleteProject", function (event) {
-    event.preventDefault();
-    var url = $(this).attr("href");
+function AddSearchBoxAndSelectAllCheckbox() {
 
-    $.get(url, function (data) {
-        $('#deleteProjectSiteContainer').html(data);
-        $('#deleteProjectSiteModal').modal('show');
+    // Setup - add a text input to each footer cell
+    $('#screenTable thead tr').clone(true).appendTo('#screenTable thead');
+    $('#screenTable thead tr:eq(1) th').each(function (i) {
+        if (i == 0) {
+            //Add Select all checkbox
+            $(this).html('<input type="checkbox" id = "selectAllCheckbox" onclick="SelectAllCheckboxChanged()">');
+            return true;
+        }
+        if (i === 14 || i == 1) {
+            //Select and Actions columns dont need the Search textbox
+            return true;
+        }
+
+        //Add Search box across other columns
+        $(this).addClass("searchHeader");
+        var title = $(this).text();
+        $(this).html('<input type="text" class="searchbox" placeholder="Search ' + title + '" />');
+
+        $('input', this).on('keyup change', function () {
+            if (grid.column(i).search() !== this.value) {
+                grid
+                    .column(i)
+                    .search(this.value)
+                    .draw();
+            }
+        });
     });
+}
 
-});
+function SelectAllCheckboxChanged() {
+    $("#selectAllCheckbox").change(function () {
+        if (this.checked) {
+            grid.rows({ filter: 'applied' }).select();
+        } else {
+            grid.rows().deselect();
+        }
+    });
+}
 
-function OnSuccessfulProjectSiteUpdate(data) {
-    if (data != "success") {
+function OnSuccessfulProjectSiteUpdate(data, isEdit) {
+    if (data.status != "success") {
         $('#createProjectSiteContainer').html(data);
+
+        //Handle Country/Site dependant dropdown functionality
+        CountryDropdownchange();
         return;
     }
+
     $('#createProjectSiteModal').modal('hide');
     $('#createProjectSiteContainer').html("");
-    var table = $("#screenTable").DataTable();
-    table.ajax.reload();
+
+    if (data.projectsite) {
+        grid.ajax.reload();
+        //if (isEdit == true) {
+
+        //    //Edit the column
+        //    var indexes = grid.rows().eq(0).filter(function (rowIdx) {
+        //        return grid.cell(rowIdx, 14).data() == data.projectsite.Id ? true : false;
+        //    });
+
+        //    if (indexes) {
+        //        var existingRow = grid.row(indexes).data();
+        //        existingRow.EntityStatusName = data.projectsite.EntityStatusName,
+        //        existingRow.Code = data.projectsite.Code,
+        //        existingRow.Name = data.projectsite.Name,
+        //        existingRow.PmName = data.projectsite.PmName,
+        //        existingRow.SubPortfolioName = data.projectsite.SubPortfolioName,
+        //        existingRow.SiteName = data.projectsite.SiteName,
+        //        existingRow.SiteItm = data.projectsite.SiteItm,
+        //        existingRow.SiteItmFeedbackName = data.projectsite.SiteItmFeedbackName,
+        //        existingRow.SiteEngagementStart = data.projectsite.SiteEngagementStart,
+        //        existingRow.SiteEngagementEnd = data.projectsite.SiteEngagementEnd,
+        //        existingRow.CreatedBy = data.projectsite.CreatedBy,
+        //        existingRow.CreatedDate = data.projectsite.CreatedDate,
+        //        existingRow.Id = data.projectsite.Id,
+        //        existingRow.Id = data.projectsite.Id
+
+        //        grid.row(indexes).data(existingRow).invalidate();
+        //    }
+        //} else {
+        //    //Add a new column
+        //    grid.row.add({
+        //        "EntityStatusName": data.projectsite.EntityStatusName,
+        //        "Code": data.projectsite.Code,
+        //        "Name": data.projectsite.Name,
+        //        "PmName": data.projectsite.PmName,
+        //        "SubPortfolioName": data.projectsite.SubPortfolioName,
+        //        "SiteName": data.projectsite.SiteName,
+        //        "SiteItm": data.projectsite.SiteItm,
+        //        "SiteItmFeedbackName": data.projectsite.SiteItmFeedbackName,
+        //        "SiteEngagementStart": data.projectsite.SiteEngagementStart,
+        //        "SiteEngagementEnd": data.projectsite.SiteEngagementEnd,
+        //        "CreatedBy": data.projectsite.CreatedBy,
+        //        "CreatedDate": data.projectsite.CreatedDate,
+        //        "Id": data.projectsite.Id,
+        //        "Id": data.projectsite.Id
+        //    }).draw();
+        //}
+
+        if (isEdit == true) {
+            NotifySuccess('Details updated');
+        } else {
+            NotifySuccess('Details added');
+        }
+    }
 }
 
-function OnSuccessfulProjectSiteDelete(data) {
-    if (data != "success") {
-        $('#deleteProjectSiteContainer').html(data);
-        return;
-    }
+function OnSuccessfulProjectSiteDelete(ids) {
+
     $('#deleteProjectSiteModal').modal('hide');
     $('#deleteProjectSiteContainer').html("");
-    var table = $("#screenTable").DataTable();
-    table.ajax.reload();
-}
+    $("#selectAllCheckbox").prop("checked", false);
 
+    grid.ajax.reload();
+    NotifySuccess(ids.length + ' records deleted');
+    //var indexes = grid.rows().eq(0).filter(function (rowIdx) {
+    //    return ids.includes(grid.cell(rowIdx, 14).data()) ? true : false;
+    //});
+
+    //if (indexes) {
+    //    //Remove records from grid if deleted.
+    //    //instead of going to server to refresh
+    //    grid.rows(indexes).remove().draw();
+
+        
+    //}
+}
 
 function InitializeProjectEvents() {
     //event for the Add Project button
@@ -206,10 +421,10 @@ function OnSuccessfulProjectAddition(data) {
         //Add value to Project name dropdown
         $("#ProjectId option[value = '']").remove()
 
-        var option = new Option(data.project.Name, 0);
+        var option = new Option(data.project.Name, data.project.Id);
         $('#ProjectId').append($(option));
 
-        $("#ProjectId").val("0");
+        $("#ProjectId").val(data.project.Id);
     }
 }
 
@@ -221,10 +436,45 @@ function ProjectDropdownchange() {
         ClearProjectFields();
     }
     else {
-        $.get(url, { id: projectId }, function (data) {
+        $.get(url, {
+            id: projectId
+        }, function (data) {
             PopulateProjectFields(data)
         });
     }
+}
+
+function CountryDropdownchange() {
+
+    var countryId = parseInt($("#CountryId option:selected").val());
+
+    //Empty the site dropdown
+    $("#SiteId").empty();
+
+    //Return if "Select One" option is selected
+    if (isNaN(countryId)) {
+        return;
+    }
+
+    //Add filtered site values to the site dropdown
+    var countrySiteMap = JSON.parse($("#CountrySiteMap").val());
+    var siteList = JSON.parse($("#SiteList").val());
+    var siteIds = countrySiteMap[countryId];
+
+    var filteredSiteList = siteList.filter(function (site) {
+        return siteIds.includes(parseInt(site.Value))
+    })
+
+    for (i = 0; i < filteredSiteList.length; i++) {
+        $('#SiteId').append($('<option>', { value: filteredSiteList[i].Value, text: filteredSiteList[i].Text }));
+    }
+
+    //Make the site dropdown editable
+    $("#SiteId").prop("disabled", false);
+}
+
+function SiteDropdownchange() {
+
 }
 
 function PopulateProjectFields(data) {

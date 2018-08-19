@@ -2,6 +2,7 @@
 using RepositoryInterfaces;
 using ServiceInterfaces;
 using System.Collections.Generic;
+using System;
 
 namespace Services
 {
@@ -27,6 +28,11 @@ namespace Services
         public List<Country> GetAll()
         {
             return _countryRepository.GetAll();
+        }
+
+        public List<Country> GetCountriesWithSites()
+        {
+            return _countryRepository.GetCountriesWithSites();
         }
 
         public void Insert(Country item)
