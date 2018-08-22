@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Utilities;
 using System.Data.Entity;
+using System.Collections.Concurrent;
+using System;
+using Models.Shared;
 
 namespace Repositories
 {
@@ -24,38 +27,30 @@ namespace Repositories
                 context.Sites.Attach(item);
                 context.Sites.Remove(item);
                 context.SaveChanges();
+                _cacheHelper.DeleteItem<Site>(item.Id, this.GetValuesFromDB(context));
             }
         }
 
         //Cache implemented only for GET ALL!!!
-        List<Site> IRepository<Site>.GetAll()
+        public List<Site> GetAll()
         {
             List<Site> items;
 
-            //Check in cache
-            items = _cacheHelper.GetAll<Site>();
-
-            if (items == null)
+            using (var context = new PmDbContext())
             {
-                using (var context = new PmDbContext())
-                {
-                    items = context.Sites
-                        //.Include(x=>x.Country)
-                        .ToList();
-
-                    //Add in cache
-                    items.ForEach(x => _cacheHelper.AddOrUpdate<Site>(x.Id, x));
-                }
+                //Check in cache, otherwise send a cache miss delegate
+                items = _cacheHelper.GetOrAddAll<Site>(this.GetValuesFromDB(context));
             }
             return items;
         }
 
-        Site IRepository<Site>.Get(int id)
+        public Site Get(int id)
         {
             Site returnValue;
             using (var context = new PmDbContext())
             {
-                returnValue = context.Sites.FirstOrDefault(x => x.Id == id);
+                //Check in cache, otherwise send a cache miss delegate
+                returnValue = _cacheHelper.GetById<Site>(id, this.GetValuesFromDB(context));
             }
             return returnValue;
         }
@@ -66,6 +61,7 @@ namespace Repositories
             {
                 context.Sites.Add(item);
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<SiteItmFeedback>(item.Id, item, this.GetValuesFromDB(context));
             }
         }
 
@@ -77,7 +73,33 @@ namespace Repositories
                 Helper.TransferData(item, originalItem);
                 context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<SiteItmFeedback>(item.Id, item, this.GetValuesFromDB(context));
             }
+        }
+
+        public Func<ConcurrentDictionary<int, object>> GetValuesFromDB(PmDbContext context)
+        {
+            return () =>
+            {
+                List<Site> allItems = context.Sites.ToList();
+
+                ConcurrentDictionary<int, object> typeRecords = new ConcurrentDictionary<int, object>();
+                allItems.ForEach(item => typeRecords.TryAdd(item.Id, item));
+
+                return typeRecords;
+            };
+        }
+
+        public Site GetbyName(string name)
+        {
+            Site returnValue;
+            using (var context = new PmDbContext())
+            {
+                //Check in cache, otherwise send a cache miss delegate
+                returnValue = _cacheHelper.GetOrAddAll<Site>(this.GetValuesFromDB(context))
+                    .FirstOrDefault(x => string.Compare(x.Name, name) == 0);
+            }
+            return returnValue;
         }
     }
 }

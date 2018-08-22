@@ -43,6 +43,7 @@
     <Compile Include="IApplicationTypeRepository.cs" />
     <Compile Include="ICountryRepository.cs" />
     <Compile Include="IDepartmentRepository.cs" />
+    <Compile Include="INoCacheRepository.cs" />
     <Compile Include="ISiteItmFeedbackRepository.cs" />
     <Compile Include="ISiteRepository.cs" />
     <Compile Include="ISubPortfolioRepository.cs" />

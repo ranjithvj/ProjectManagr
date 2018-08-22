@@ -4,6 +4,7 @@ using Models.DTO;
 using ProjectManagr.Cache;
 using ProjectManagr.ViewModels;
 using ServiceInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -65,27 +66,28 @@ namespace ProjectManagr.Controllers
             return View();
         }
 
-        public JsonResult Get()//[ModelBinder(typeof(DataTablesBinder))] IDataTablesRequest requestModel)
+        public JsonResult Get()
         {
-            // FilterRequestDTO serviceRequest = this.CreateServiceRequest(requestModel);
-
-            //TODO: This is the code for Server side processing
-            //FilterResponseDTO<ProjectSite> serviceReponse = _projectSiteService.GetWithFilter(serviceRequest);
+  
             Stopwatch sw = Stopwatch.StartNew();
             List<ProjectSite> serviceReponse = _projectSiteService.GetAll();
             sw.Stop();
             var part1 = sw.ElapsedMilliseconds;
+
             sw = Stopwatch.StartNew();
             List<ProjectSiteVM> vmList = new List<ProjectSiteVM>();
-            //serviceReponse.Data.ForEach(x => data.Add(new ProjectSiteVM(x)));
             serviceReponse.ForEach(x => vmList.Add(new ProjectSiteVM(x)));
             sw.Stop();
             var part2 = sw.ElapsedMilliseconds;
-            //return Json(new DataTablesResponse(requestModel.Draw, data, serviceReponse.FilteredCount, serviceReponse.TotalCount), JsonRequestBehavior.AllowGet);
 
-            var json = Json(new { data = vmList, time1 = part1, time2 = part2 });
-            json.MaxJsonLength = int.MaxValue;
-            return json;
+            JsonResult result = new JsonResult
+            {
+                Data = new { data = vmList, time1 = part1, time2 = part2 },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = int.MaxValue
+            };
+
+            return result;
         }
 
         // GET: ProjectSite/Details/5
@@ -118,11 +120,11 @@ namespace ProjectManagr.Controllers
 
                 ProjectSite projectSite = TransferData(obj);
 
-                ProjectSite insertedRecord = _projectSiteService.InsertWithReturn(projectSite);
+                _projectSiteService.Insert(projectSite);
 
                 JsonResult result = new JsonResult
                 {
-                    Data = new { status = "success", projectsite = new ProjectSiteVM(insertedRecord) },
+                    Data = new { status = "success"},
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
 
@@ -159,11 +161,11 @@ namespace ProjectManagr.Controllers
 
                 ProjectSite projectSite = TransferData(obj);
                     
-                ProjectSite updatedSite = _projectSiteService.UpdateWithReturn(projectSite);
+                _projectSiteService.Update(projectSite);
 
                 JsonResult result = new JsonResult
                 {
-                    Data = new { status = "success", projectsite = new ProjectSiteVM(updatedSite) },
+                    Data = new { status = "success"},
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
                 return result;
@@ -270,11 +272,11 @@ namespace ProjectManagr.Controllers
             projectsite.Apex = obj.Apex;
             projectsite.PotentialValue = obj.PotentialValue;
             projectsite.SiteItm = obj.SiteItm;
-            projectsite.SiteEngagementStart = obj.SiteEngagementStart;
-            projectsite.SiteEngagementEnd = obj.SiteEngagementEnd;
-            projectsite.HasBusinessImpact = obj.HasBusinessImpact; //Y or N : Yes or No -- ~Handle in C#
+            projectsite.SiteEngagementStart = obj.SiteEngagementStart ?? DateTime.MinValue;
+            projectsite.SiteEngagementEnd = obj.SiteEngagementEnd ?? DateTime.MinValue;
+            projectsite.HasBusinessImpact = obj.HasBusinessImpact; 
             projectsite.CommentsAndIssues = obj.CommentsAndIssues;
-            projectsite.IsResourceRequired = obj.IsResourceRequired; //Y or N : Yes or No  -- ~Handle in c#
+            projectsite.IsResourceRequired = obj.IsResourceRequired; 
             projectsite.Attachment = obj.Attachment;
             projectsite.CreatedBy = obj.CreatedBy;
             projectsite.ModifiedBy = obj.ModifiedBy;

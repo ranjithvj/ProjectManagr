@@ -9,9 +9,6 @@ namespace RepositoryInterfaces
 {
     public interface IProjectSiteRepository : IRepository<ProjectSite>
     {
-        List<ProjectSite> GetWithFilter(Expression<Func<ProjectSite, bool>> request);
         void SoftDelete(List<int> id, string deletedBy);
-        ProjectSite InsertWithReturn(ProjectSite item);
-        ProjectSite UpdateWithReturn(ProjectSite item);
     }
 }

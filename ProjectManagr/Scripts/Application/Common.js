@@ -14,7 +14,7 @@ function NotifyError(msg) {
         },
         offset: {
             x: 25,
-            y: 50
+            y: 50,
         },
         template: '<div data-notify="container" role="alert" class="col-xs-10 col-sm-3 col-md-3 alert alert-{0}" style=" max-width: 400px;">\
                 <button type="button" class="close" data-notify="dismiss">\

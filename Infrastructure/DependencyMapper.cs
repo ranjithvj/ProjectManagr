@@ -28,7 +28,7 @@ namespace CompositionRoot
             #region DataAccess
 
             this.Bind<IScreenRepository>().To<ScreenRepository>();
-            this.Bind<IProjectSiteRepository>().To<ProjectSiteRepository>();
+            this.Bind<IProjectSiteRepository>().To<ProjectSiteWithCacheRepository>();
             this.Bind<IEntityStatusRepository>().To<EntityStatusRepository>();
             this.Bind<IProjectRepository>().To<ProjectRepository>();
             this.Bind<IApplicationTypeRepository>().To<ApplicationTypeRepository>();

@@ -1,6 +1,8 @@
 ﻿using Models;
 using Repositories.Cache;
 using RepositoryInterfaces;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
@@ -23,35 +25,29 @@ namespace Repositories
                 context.SubPortfolios.Attach(item);
                 context.SubPortfolios.Remove(item);
                 context.SaveChanges();
+                _cacheHelper.DeleteItem<SubPortfolio>(item.Id, this.GetValuesFromDB(context));
             }
         }
 
-        List<SubPortfolio> IRepository<SubPortfolio>.GetAll()
+        public List<SubPortfolio> GetAll()
         {
             List<SubPortfolio> items;
 
-            //Check in cache
-            items = _cacheHelper.GetAll<SubPortfolio>();
-
-            if (items == null)
+            using (var context = new PmDbContext())
             {
-                using (var context = new PmDbContext())
-                {
-                    items = context.SubPortfolios.ToList();
-
-                    //Add in cache
-                    items.ForEach(x => _cacheHelper.AddOrUpdate<SubPortfolio>(x.Id, x));
-                }
+                //Check in cache, otherwise send a cache miss delegate
+                items = _cacheHelper.GetOrAddAll<SubPortfolio>(this.GetValuesFromDB(context));
             }
             return items;
         }
 
-        SubPortfolio IRepository<SubPortfolio>.Get(int id)
+        public SubPortfolio Get(int id)
         {
             SubPortfolio returnValue;
             using (var context = new PmDbContext())
             {
-                returnValue = context.SubPortfolios.FirstOrDefault(x => x.Id == id);
+                //Check in cache, otherwise send a cache miss delegate
+                returnValue = _cacheHelper.GetById<SubPortfolio>(id, this.GetValuesFromDB(context));
             }
             return returnValue;
         }
@@ -62,6 +58,7 @@ namespace Repositories
             {
                 context.SubPortfolios.Add(item);
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<SubPortfolio>(item.Id, item, this.GetValuesFromDB(context));
             }
         }
 
@@ -73,7 +70,21 @@ namespace Repositories
                 Helper.TransferData(item, originalItem);
                 context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<SubPortfolio>(item.Id, item, this.GetValuesFromDB(context));
             }
+        }
+
+        public Func<ConcurrentDictionary<int, object>> GetValuesFromDB(PmDbContext context)
+        {
+            return () =>
+            {
+                List<SubPortfolio> allItems = context.SubPortfolios.ToList();
+
+                ConcurrentDictionary<int, object> typeRecords = new ConcurrentDictionary<int, object>();
+                allItems.ForEach(item => typeRecords.TryAdd(item.Id, item));
+
+                return typeRecords;
+            };
         }
     }
 }

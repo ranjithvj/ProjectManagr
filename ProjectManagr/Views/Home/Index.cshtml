@@ -1,43 +1,59 @@
 ﻿@model ProjectManagr.ViewModels.DashboardVM
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "POAP";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-@using (Ajax.BeginForm("Get", "Home", null, new AjaxOptions { HttpMethod = "Post", OnBegin = "ValidateDashboardFilter",  OnSuccess = "OnChartFilterApplied" }, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("Get", "Home", null, new AjaxOptions { HttpMethod = "Post", OnBegin = "ValidateDashboardFilter", OnSuccess = "OnChartFilterApplied" }, new { @class = "form-horizontal", role = "form" }))
 {
     <div class="row">
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.SelectedSite, htmlAttributes: new { @class = "control-label col-md-4 required" })
-            <div class="col-md-8">
-                @Html.DropDownListFor(model => model.SelectedSite, Model.Sites, "Select one", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SelectedSite, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-5">
+                    @Html.LabelFor(model => model.SelectedSite, htmlAttributes: new { @class = "control-label col-md-3 required" })
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(model => model.SelectedSite, Model.Sites, "Select one", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SelectedSite, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-4 required" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", data_provide = "datepicker" } })
-                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-4 required" })
-            <div class="col-md-8">
-                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" , autocomplete = "off" , data_provide="datepicker"} })
-                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="col-md-4"></div>
-                <div class="col-md-8">
-                    <input type="submit" value="Create POAP" class="btn btn-primary" />
+                <div class="col-md-7">
+                    @Html.LabelFor(model => model.EntityStatusId, htmlAttributes: new { @class = "control-label col-md-5" })
+                    <div class="col-md-7">
+                        @Html.DropDownListFor(model => model.EntityStatusId, Model.EntityStatuses, "Select one", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EntityStatusId, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-5">
+                    @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-5" })
+                    <div class="col-md-7">
+                        @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", data_provide = "datepicker" } })
+                        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-5" })
+                    <div class="col-md-7">
+                        @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", autocomplete = "off", data_provide = "datepicker" } })
+                        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <input type="submit" value="Create POAP" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 }
 <p></p>
 <p></p>

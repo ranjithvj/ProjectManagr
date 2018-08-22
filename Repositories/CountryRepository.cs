@@ -6,6 +6,7 @@ using System.Linq;
 using Utilities;
 using System.Data.Entity;
 using System;
+using System.Collections.Concurrent;
 
 namespace Repositories
 {
@@ -25,36 +26,29 @@ namespace Repositories
                 context.Countries.Attach(item);
                 context.Countries.Remove(item);
                 context.SaveChanges();
+                _cacheHelper.DeleteItem<Country>(id, this.GetValuesFromDB(context));
             }
         }
 
-        List<Country> IRepository<Country>.GetAll()
+        public List<Country> GetAll()
         {
             List<Country> items;
 
-            //Check in cache
-            items = _cacheHelper.GetAll<Country>();
-
-            if (items == null)
+            using (var context = new PmDbContext())
             {
-                using (var context = new PmDbContext())
-                {
-                    items = context.Countries.Include(x => x.Site)
-                        .ToList();
-
-                    //Add in cache
-                    items.ForEach(x => _cacheHelper.AddOrUpdate<Country>(x.Id, x));
-                }
+                //Check in cache, otherwise send a cache miss delegate
+                items = _cacheHelper.GetOrAddAll<Country>(this.GetValuesFromDB(context));
             }
             return items;
         }
 
-        Country IRepository<Country>.Get(int id)
+        public Country Get(int id)
         {
             Country returnValue;
             using (var context = new PmDbContext())
             {
-                returnValue = context.Countries.FirstOrDefault(x => x.Id == id);
+                //Check in cache, otherwise send a cache miss delegate
+                returnValue = _cacheHelper.GetById<Country>(id, this.GetValuesFromDB(context));
             }
             return returnValue;
         }
@@ -65,6 +59,7 @@ namespace Repositories
             {
                 context.Countries.Add(item);
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<Country>(item.Id, item, this.GetValuesFromDB(context));
             }
         }
 
@@ -76,6 +71,7 @@ namespace Repositories
                 Helper.TransferData(item, originalItem);
                 context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<Country>(item.Id, item, this.GetValuesFromDB(context));
             }
         }
 
@@ -83,27 +79,27 @@ namespace Repositories
         {
             List<Country> items;
 
-            //Check in cache
-            items = _cacheHelper.GetAll<Country>()
-                     ?.Where(x => x.Site != null && x.Site.Count > 0)
-                     ?.ToList();
-
-            if (items == null)
+            using (var context = new PmDbContext())
             {
-                using (var context = new PmDbContext())
-                {
-                    items = context.Countries.Include(x => x.Site)
+                //Check in cache, otherwise send a cache miss delegate
+                items = _cacheHelper.GetOrAddAll<Country>(this.GetValuesFromDB(context))
+                        .Where(x => x.Site != null && x.Site.Count > 0)
                         .ToList();
-
-                    //Add all items in cache to avoid losing data which got filtered
-                    items.ForEach(x => _cacheHelper.AddOrUpdate<Country>(x.Id, x));
-
-                    items = _cacheHelper.GetAll<Country>()
-                     .Where(x => x.Site != null && x.Site.Count > 0)
-                     .ToList();
-                }
             }
             return items;
+        }
+
+        public Func<ConcurrentDictionary<int, object>> GetValuesFromDB(PmDbContext context)
+        {
+            return () =>
+            {
+                List<Country> allCountries = context.Countries.Include(x => x.Site).ToList();
+
+                ConcurrentDictionary<int, object> typeRecords = new ConcurrentDictionary<int, object>();
+                allCountries.ForEach(item => typeRecords.TryAdd(item.Id, item));
+
+                return typeRecords;
+            };
         }
     }
 }

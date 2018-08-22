@@ -8,11 +8,9 @@ namespace ServiceInterfaces
 {
     public interface IProjectSiteService : ITransactionalEntityService<ProjectSite>
     {
-        List<ProjectSite> GetWithFilter(Expression<Func<ProjectSite, bool>> request);
+        List<ProjectSite> GetWithFilter(DateTime? start, DateTime? end, int siteId, int? entityStatusId);
 
         void SoftDelete(List<int> ids, string deletedBy);
-
-        ProjectSite InsertWithReturn(ProjectSite item);
-        ProjectSite UpdateWithReturn(ProjectSite item);
+        
     }
 }

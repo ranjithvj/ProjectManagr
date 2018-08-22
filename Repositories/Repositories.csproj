@@ -53,10 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseRepository.cs" />
     <Compile Include="Cache\CacheHelper.cs" />
     <Compile Include="Configuration\PmDbContext.cs" />
     <Compile Include="ApplicationTypeRepository.cs" />
+    <Compile Include="ProjectSiteRepository.cs" />
     <Compile Include="SubPortfolioRepository.cs" />
     <Compile Include="SiteRepository.cs" />
     <Compile Include="SiteItmFeedbackRepository.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="ProjectRepository.cs" />
     <Compile Include="EntityStatusRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProjectSiteRepository.cs" />
+    <Compile Include="ProjectSiteWithCacheRepository.cs" />
     <Compile Include="ScreenRepository.cs" />
   </ItemGroup>
   <ItemGroup />

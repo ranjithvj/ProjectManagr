@@ -18,9 +18,18 @@ namespace ProjectManagr.ViewModels
         [Display(Name = "Site")]
         public int SelectedSite { get; set; }
 
+        [Display(Name = "Entity Status")]
+        public int? EntityStatusId { get; set; }
+
+        public string MinDate { get; set; }
+
+        public string MaxDate { get; set; }
+
         public List<ProjectSiteVM> ChartData { get; set; }
         #region Dropdowns
-        public List<SelectListItem> Sites { get; internal set; }
+        public List<SelectListItem> Sites { get; set; }
+
+        public List<SelectListItem> EntityStatuses { get; set; }
         #endregion
     }
 }

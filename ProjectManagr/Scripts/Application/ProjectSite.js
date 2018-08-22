@@ -29,35 +29,10 @@ $(document).ready(function () {
             { "title": "Site", "data": "SiteName" },
             { "title": "Site ITM", "data": "SiteItm" },
             { "title": "Site ITM Feedback", "data": "SiteItmFeedbackName" },
-            {
-                "title": "Eng. Start",
-                "data": "SiteEngagementStart",
-                "render": function (data) {
-                    var date = new Date(parseInt(data.replace(/\/Date\((-?\d+)\)\//gi, "$1")));
-                    var month = date.getMonth() + 1;
-                    return (month.length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                }
-            },
-            {
-                "title": "Eng. End",
-                "data": "SiteEngagementEnd",
-                "render": function (data) {
-                    var date = new Date(parseInt(data.replace(/\/Date\((-?\d+)\)\//gi, "$1")));
-                    var month = date.getMonth() + 1;
-                    return (month.length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                }
-            },
+            { "title": "Eng. Start", "data": "SiteEngagementStartString" },
+            { "title": "Eng. End", "data": "SiteEngagementEndString" },
             { "title": "Created By", "data": "CreatedBy" },
-            {
-                "title": "Created On",
-                "data": "CreatedDate",
-                "render": function (data) {
-                    var date = new Date(parseInt(data.replace(/\/Date\((-?\d+)\)\//gi, "$1")));
-                    var month = date.getMonth() + 1;
-                    return (month.length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                }
-            },
-
+            {"title": "Created On","data": "CreatedDateString"},
             {
                 "title": "Actions",
                 "data": "Id",
@@ -308,65 +283,20 @@ function OnSuccessfulProjectSiteUpdate(data, isEdit) {
 
         //Handle Country/Site dependant dropdown functionality
         CountryDropdownchange();
+
+        NotifyError("Please check the validation errors.");
         return;
     }
 
     $('#createProjectSiteModal').modal('hide');
     $('#createProjectSiteContainer').html("");
 
-    if (data.projectsite) {
-        grid.ajax.reload();
-        //if (isEdit == true) {
+    grid.ajax.reload();
 
-        //    //Edit the column
-        //    var indexes = grid.rows().eq(0).filter(function (rowIdx) {
-        //        return grid.cell(rowIdx, 14).data() == data.projectsite.Id ? true : false;
-        //    });
-
-        //    if (indexes) {
-        //        var existingRow = grid.row(indexes).data();
-        //        existingRow.EntityStatusName = data.projectsite.EntityStatusName,
-        //        existingRow.Code = data.projectsite.Code,
-        //        existingRow.Name = data.projectsite.Name,
-        //        existingRow.PmName = data.projectsite.PmName,
-        //        existingRow.SubPortfolioName = data.projectsite.SubPortfolioName,
-        //        existingRow.SiteName = data.projectsite.SiteName,
-        //        existingRow.SiteItm = data.projectsite.SiteItm,
-        //        existingRow.SiteItmFeedbackName = data.projectsite.SiteItmFeedbackName,
-        //        existingRow.SiteEngagementStart = data.projectsite.SiteEngagementStart,
-        //        existingRow.SiteEngagementEnd = data.projectsite.SiteEngagementEnd,
-        //        existingRow.CreatedBy = data.projectsite.CreatedBy,
-        //        existingRow.CreatedDate = data.projectsite.CreatedDate,
-        //        existingRow.Id = data.projectsite.Id,
-        //        existingRow.Id = data.projectsite.Id
-
-        //        grid.row(indexes).data(existingRow).invalidate();
-        //    }
-        //} else {
-        //    //Add a new column
-        //    grid.row.add({
-        //        "EntityStatusName": data.projectsite.EntityStatusName,
-        //        "Code": data.projectsite.Code,
-        //        "Name": data.projectsite.Name,
-        //        "PmName": data.projectsite.PmName,
-        //        "SubPortfolioName": data.projectsite.SubPortfolioName,
-        //        "SiteName": data.projectsite.SiteName,
-        //        "SiteItm": data.projectsite.SiteItm,
-        //        "SiteItmFeedbackName": data.projectsite.SiteItmFeedbackName,
-        //        "SiteEngagementStart": data.projectsite.SiteEngagementStart,
-        //        "SiteEngagementEnd": data.projectsite.SiteEngagementEnd,
-        //        "CreatedBy": data.projectsite.CreatedBy,
-        //        "CreatedDate": data.projectsite.CreatedDate,
-        //        "Id": data.projectsite.Id,
-        //        "Id": data.projectsite.Id
-        //    }).draw();
-        //}
-
-        if (isEdit == true) {
-            NotifySuccess('Details updated');
-        } else {
-            NotifySuccess('Details added');
-        }
+    if (isEdit == true) {
+        NotifySuccess('Details updated');
+    } else {
+        NotifySuccess('Details added');
     }
 }
 
@@ -378,17 +308,6 @@ function OnSuccessfulProjectSiteDelete(ids) {
 
     grid.ajax.reload();
     NotifySuccess(ids.length + ' records deleted');
-    //var indexes = grid.rows().eq(0).filter(function (rowIdx) {
-    //    return ids.includes(grid.cell(rowIdx, 14).data()) ? true : false;
-    //});
-
-    //if (indexes) {
-    //    //Remove records from grid if deleted.
-    //    //instead of going to server to refresh
-    //    grid.rows(indexes).remove().draw();
-
-        
-    //}
 }
 
 function InitializeProjectEvents() {
@@ -446,6 +365,7 @@ function ProjectDropdownchange() {
 
 function CountryDropdownchange() {
 
+    var siteId = parseInt($("#SiteId option:selected").val());
     var countryId = parseInt($("#CountryId option:selected").val());
 
     //Empty the site dropdown
@@ -471,6 +391,10 @@ function CountryDropdownchange() {
 
     //Make the site dropdown editable
     $("#SiteId").prop("disabled", false);
+
+    if (siteId) {
+        $("#SiteId").val(siteId);
+    }
 }
 
 function SiteDropdownchange() {

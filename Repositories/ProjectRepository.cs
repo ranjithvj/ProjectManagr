@@ -2,6 +2,7 @@
 using Repositories.Cache;
 using RepositoryInterfaces;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
@@ -16,51 +17,52 @@ namespace Repositories
             _cacheHelper = CacheHelper.GetInstance();
         }
 
+        //Do not use this.
+        //Need to softdelete
         public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        //Set IsActive to False in DB
+        //Remove the record from Cache instead of updating the cache
+        public void SoftDelete(int id, string deletedBy)
         {
             using (var context = new PmDbContext())
             {
-                Project item = new Project { Id = id };
-                context.Projects.Attach(item);
-                context.Projects.Remove(item);
+                ProjectSite item = context.ProjectSites.FirstOrDefault(x => x.Id == id);
+
+                item.IsActive = false;
+                item.ModifiedDate = DateTime.UtcNow;
+                item.ModifiedBy = deletedBy;
+                context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+
                 context.SaveChanges();
-                _cacheHelper.DeleteItem<Project>(id);
+
+                //Remove items from Cache
+                _cacheHelper.DeleteItem<ProjectSite>(id, this.GetValuesFromDB(context));
             }
         }
 
-        List<Project> IRepository<Project>.GetAll()
+        public List<Project> GetAll()
         {
             List<Project> items;
-
-            //Check in cache
-            items = _cacheHelper.GetAll<Project>();
-
-            if (items == null)
+            using (var context = new PmDbContext())
             {
-                using (var context = new PmDbContext())
-                {
-                    items = context.Projects.ToList();
-
-                    //Add in cache
-                    items.ForEach(x => _cacheHelper.AddOrUpdate<Project>(x.Id, x));
-                }
+                //Check in cache, otherwise send a cache miss delegate
+                items = _cacheHelper.GetOrAddAll<Project>(this.GetValuesFromDB(context));
             }
-            return items;
 
+            return items;
         }
 
-        Project IRepository<Project>.Get(int id)
+        public Project Get(int id)
         {
             Project returnValue;
-            returnValue = _cacheHelper.GetById<Project>(id);
-            if (returnValue == null)
+            using (var context = new PmDbContext())
             {
-                using (var context = new PmDbContext())
-                {
-                    returnValue = context.Projects.FirstOrDefault(x => x.Id == id);
-                    if (returnValue != null)
-                        _cacheHelper.AddOrUpdate<Project>(id, returnValue);
-                }
+                //Check in cache, otherwise send a cache miss delegate
+                returnValue = _cacheHelper.GetById<Project>(id, this.GetValuesFromDB(context));
             }
             return returnValue;
         }
@@ -74,7 +76,7 @@ namespace Repositories
                 item.ModifiedDate = DateTime.UtcNow;
                 context.Projects.Add(item);
                 context.SaveChanges();
-                _cacheHelper.AddOrUpdate<Project>(item.Id, item);
+                _cacheHelper.AddOrUpdate<Project>(item.Id, item, this.GetValuesFromDB(context));
             }
         }
 
@@ -86,8 +88,21 @@ namespace Repositories
                 Helper.TransferData(item, originalItem);
                 context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
-                _cacheHelper.AddOrUpdate<Project>(item.Id, item);
+                _cacheHelper.AddOrUpdate<Project>(item.Id, item, this.GetValuesFromDB(context));
             }
+        }
+
+        public Func<ConcurrentDictionary<int, object>> GetValuesFromDB(PmDbContext context)
+        {
+            return () =>
+            {
+                List<Project> allProjects = context.Projects.Where(x => x.IsActive).ToList();
+
+                ConcurrentDictionary<int, object> typeRecords = new ConcurrentDictionary<int, object>();
+                allProjects.ForEach(item => typeRecords.TryAdd(item.Id, item));
+
+                return typeRecords;
+            };
         }
     }
 }

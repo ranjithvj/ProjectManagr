@@ -9,36 +9,35 @@ function ValidateDashboardFilter() {
     var filterStart = $('#StartDate').val();
     var filterEnd = $('#EndDate').val();
     var selectedSite = $('#SelectedSite').val();
-    if (filterStart && filterEnd && selectedSite)
-    {
-        if (new Date(filterStart) > new Date(filterEnd))
-        {
+
+    if (selectedSite) {
+        if (filterStart && filterEnd && new Date(filterStart) > new Date(filterEnd)) {
             NotifyError(" 'Start date' is greater than 'End date'");
             return false;
         }
 
         return true;
     }
-    else
-    {
+    else {
         NotifyError('Please enter the required fields');
         return false;
     }
 }
 
-function OnChartFilterApplied(data) {
+function OnChartFilterApplied(response) {
 
-    if (data != null) {
-        //Remove existing chart!
-        if (timeline != null && timeline.body!= null) {
-            timeline.destroy();
-        }
+    var items = response.data;
 
-        if (data.ChartData) {
+    //Remove existing chart!
+    if (timeline != null && timeline.body != null) {
+        timeline.destroy();
+    }
 
+    if (items) {
+        if (items.ChartData) {
             //If the given filters have no data, do not render the empty chart
-            if (data.ChartData.length > 0) {
-                LoadCharts(data.ChartData);
+            if (items.ChartData.length > 0) {
+                LoadCharts(items.ChartData, items.MinDate, items.MaxDate);
 
                 timeline.redraw();
             } else {
@@ -56,12 +55,20 @@ function ParseDate(data) {
     return (month.length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
 }
 
-function LoadCharts(data) {
+function LoadCharts(data, minDate, maxDate) {
     var groups = new vis.DataSet();
     var items = new vis.DataSet();
     var numberOfGroups = data.length;
     var filterStart = $('#StartDate').val();
     var filterEnd = $('#EndDate').val();
+
+    if (!filterStart) {
+        filterStart = new Date(minDate);
+    }
+    if (!filterEnd) {
+        filterEnd = new Date(maxDate);
+    }
+
     for (var i = 0; i < numberOfGroups ; i++) {
         groups.add({
             id: i,
@@ -74,8 +81,10 @@ function LoadCharts(data) {
         items.add({
             id: i + 1000,
             group: i,
-            start: ParseDate(data[i].SiteEngagementStart),
-            end: ParseDate(data[i].SiteEngagementEnd),
+            //start: ParseDate(data[i].SiteEngagementStart),
+            //end: ParseDate(data[i].SiteEngagementEnd),
+            start : new Date(data[i].SiteEngagementStartString),
+            end: new Date(data[i].SiteEngagementEndString),
             content: data[i].EntityStatusName,
             title: "<div class='chartTooltip'><div>Application : " + data[i].ApplicationName + "</div>"
             + "<div>Project : " + data[i].Name + "</div>"
@@ -93,7 +102,7 @@ function LoadCharts(data) {
         stack: true,
         horizontalScroll: false,
         zoomable: false,
-        moveable:false,
+        moveable: false,
         //maxHeight: 400,
         start: filterStart,
         end: filterEnd,

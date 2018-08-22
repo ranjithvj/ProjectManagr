@@ -30,5 +30,14 @@
             Closed = 4
         }
 
+        public class DateFormat
+        {
+            public const string DefaultFormat = "M/dd/yyyy";
+        }
+
+        public class Site
+        {
+            public const string Global = "Global Sites";
+        }
     }
 }

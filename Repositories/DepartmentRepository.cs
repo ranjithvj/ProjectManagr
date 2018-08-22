@@ -1,13 +1,15 @@
 ﻿using Models;
 using Repositories.Cache;
 using RepositoryInterfaces;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
 
 namespace Repositories
 {
-    public class DepartmentRepository : BaseRepository, IDepartmentRepository
+    public class DepartmentRepository : IDepartmentRepository
     {
         private CacheHelper _cacheHelper;
         public DepartmentRepository()
@@ -23,35 +25,30 @@ namespace Repositories
                 context.Departments.Attach(item);
                 context.Departments.Remove(item);
                 context.SaveChanges();
+                _cacheHelper.DeleteItem<Department>(item.Id, this.GetValuesFromDB(context));
             }
         }
 
-        List<Department> IRepository<Department>.GetAll()
+        public List<Department> GetAll()
         {
             List<Department> items;
 
-            //Check in cache
-            items = _cacheHelper.GetAll<Department>();
-
-            if (items == null)
+            using (var context = new PmDbContext())
             {
-                using (var context = new PmDbContext())
-                {
-                    items = context.Departments.ToList();
-
-                    //Add in cache
-                    items.ForEach(x => _cacheHelper.AddOrUpdate<Department>(x.Id, x));
-                }
+                //Check in cache, otherwise send a cache miss delegate
+                items = _cacheHelper.GetOrAddAll<Department>(this.GetValuesFromDB(context));
             }
+
             return items;
         }
 
-        Department IRepository<Department>.Get(int id)
+        public Department Get(int id)
         {
             Department returnValue;
             using (var context = new PmDbContext())
             {
-                returnValue = context.Departments.FirstOrDefault(x => x.Id == id);
+                //Check in cache, otherwise send a cache miss delegate
+                returnValue = _cacheHelper.GetById<Department>(id, this.GetValuesFromDB(context));
             }
             return returnValue;
         }
@@ -61,7 +58,8 @@ namespace Repositories
             using (var context = new PmDbContext())
             {
                 context.Departments.Add(item);
-                base.Insert<Department>(item, item.Id, context);
+                context.SaveChanges();
+                _cacheHelper.AddOrUpdate<Department>(item.Id, item, this.GetValuesFromDB(context));
             }
         }
 
@@ -73,7 +71,21 @@ namespace Repositories
                 Helper.TransferData(item, originalItem);
                 context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<ApplicationType>(item.Id, item, this.GetValuesFromDB(context));
             }
+        }
+
+        public Func<ConcurrentDictionary<int, object>> GetValuesFromDB(PmDbContext context)
+        {
+            return () =>
+            {
+                List<Department> allItems = context.Departments.ToList();
+
+                ConcurrentDictionary<int, object> typeRecords = new ConcurrentDictionary<int, object>();
+                allItems.ForEach(item => typeRecords.TryAdd(item.Id, item));
+
+                return typeRecords;
+            };
         }
     }
 }

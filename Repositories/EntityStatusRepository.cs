@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Utilities;
 using Repositories.Cache;
+using System.Collections.Concurrent;
+using System;
 
 namespace Repositories
 {
@@ -22,34 +24,30 @@ namespace Repositories
                 context.EntityStatuses.Attach(item);
                 context.EntityStatuses.Remove(item);
                 context.SaveChanges();
+                _cacheHelper.DeleteItem<EntityStatus>(item.Id, this.GetValuesFromDB(context));
             }
         }
 
-        List<EntityStatus> IRepository<EntityStatus>.GetAll()
+        public List<EntityStatus> GetAll()
         {
             List<EntityStatus> items;
-            //Check in cache
-            items = _cacheHelper.GetAll<EntityStatus>();
 
-            if (items == null)
+            using (var context = new PmDbContext())
             {
-                using (var context = new PmDbContext())
-                {
-                    items = context.EntityStatuses.ToList();
-
-                    //Add in cache
-                    items.ForEach(x => _cacheHelper.AddOrUpdate<EntityStatus>(x.Id, x));
-                }
+                //Check in cache, otherwise send a cache miss delegate
+                items = _cacheHelper.GetOrAddAll<EntityStatus>(this.GetValuesFromDB(context));
             }
+
             return items;
         }
 
-        EntityStatus IRepository<EntityStatus>.Get(int id)
+        public EntityStatus Get(int id)
         {
             EntityStatus returnValue;
             using (var context = new PmDbContext())
             {
-                returnValue = context.EntityStatuses.FirstOrDefault(x => x.Id == id);
+                //Check in cache, otherwise send a cache miss delegate
+                returnValue = _cacheHelper.GetById<EntityStatus>(id, this.GetValuesFromDB(context));
             }
             return returnValue;
         }
@@ -60,6 +58,7 @@ namespace Repositories
             {
                 context.EntityStatuses.Add(item);
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<EntityStatus>(item.Id, item, this.GetValuesFromDB(context));
             }
         }
 
@@ -71,7 +70,21 @@ namespace Repositories
                 Helper.TransferData(item, originalItem);
                 context.Entry(originalItem).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
+                _cacheHelper.AddOrUpdate<EntityStatus>(item.Id, item, this.GetValuesFromDB(context));
             }
+        }
+
+        public Func<ConcurrentDictionary<int, object>> GetValuesFromDB(PmDbContext context)
+        {
+            return () =>
+            {
+                List<EntityStatus> allItems = context.EntityStatuses.ToList();
+
+                ConcurrentDictionary<int, object> typeRecords = new ConcurrentDictionary<int, object>();
+                allItems.ForEach(item => typeRecords.TryAdd(item.Id, item));
+
+                return typeRecords;
+            };
         }
     }
 }

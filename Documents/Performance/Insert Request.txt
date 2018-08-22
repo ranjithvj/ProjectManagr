@@ -1,0 +1,15 @@
+POST http://localhost/pmo/ProjectSite/Create HTTP/1.1
+
+Host: localhost
+Connection: keep-alive
+Content-Length: 526
+Accept: */*
+Origin: http://localhost
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+Referer: http://localhost/pmo/ProjectSite
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+Name=Naso&Id=0&IsActive=False&CreatedDate=1%2F1%2F0001+12%3A00%3A00+AM&ModifiedDate=1%2F1%2F0001+12%3A00%3A00+AM&ProjectId=511&Code=1111&Description=TEst&PmName=test&ApplicationName=test&SubPortfolioIdRef=1&EntityStatusId=1&CountryId=1&SiteId=1&SiteItmFeedbackId=1&DepartmentId=1&ApplicationTypeId=1&Apex=Test&PotentialValue=12&SiteItm=TEst&SiteEngagementStart=08%2F23%2F2018&SiteEngagementEnd=08%2F24%2F2018&HasBusinessImpact=True&CommentsAndIssues=Test&IsResourceRequired=True&Attachment=TEst&X-Requested-With=XMLHttpRequest

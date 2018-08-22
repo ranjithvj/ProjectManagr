@@ -45,10 +45,10 @@ namespace Models
         public string SiteItm { get; set; }
 
         [Required]
-        public DateTime? SiteEngagementStart { get; set; }
+        public DateTime SiteEngagementStart { get; set; }
 
         [Required]
-        public DateTime? SiteEngagementEnd { get; set; }
+        public DateTime SiteEngagementEnd { get; set; }
 
         public bool HasBusinessImpact { get; set; } 
 

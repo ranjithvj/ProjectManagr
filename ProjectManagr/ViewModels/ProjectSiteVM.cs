@@ -1,7 +1,9 @@
 ﻿using Models;
+using Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Web.Mvc;
 
 namespace ProjectManagr.ViewModels
@@ -85,7 +87,7 @@ namespace ProjectManagr.ViewModels
         #region Properties
 
         [Display(Name = "Project")] //To display a dropdown of names and get the value!
-        [Required(ErrorMessage = "This is a required field")]
+        [Required]
         public int ProjectId { get; set; }
 
         [Display(Name = "Project ID")]
@@ -98,7 +100,7 @@ namespace ProjectManagr.ViewModels
         public string Description { get; set; }
 
         [Display(Name = "PM / ADL / Planner")]
-        [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
+        [Required(AllowEmptyStrings = false)]
         public string PmName { get; set; } //todo: need to add range validation
 
         [Display(Name = "Application")]
@@ -107,53 +109,60 @@ namespace ProjectManagr.ViewModels
         [Display(Name = "Sub Portfolio")]
         public int SubPortfolioId { get; set; }
 
-        [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
+        [Range(1, Int32.MaxValue)]
         public int SubPortfolioIdRef { get; set; }//To handle the disabled dropdown in the browser
 
+        [Display(Name = "Sub Portfolio")]
         public string SubPortfolioName { get; set; }
 
         [Display(Name = "Entity Status")]
-        [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
+        [Range(1, Int32.MaxValue)]
         public int EntityStatusId { get; set; }
 
+        [Display(Name = "Sub Portfolio")]
         public string EntityStatusName { get; set; }
 
         public string ColorCode { get; set; }
 
         [Display(Name = "Country")]
-        [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
+        [Range(1, Int32.MaxValue)]
         public int CountryId { get; set; }
 
+        [Display(Name = "Country")]
         public string CountryName { get; set; }
 
         [Display(Name = "Site")]
-        [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "The Site field is required.")]
         public int SiteId { get; set; }
 
+        [Display(Name = "Site")]
         public string SiteName { get; set; }
 
         [Display(Name = "Site ITM Feedback")]
-        [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
+        [Range(1, Int32.MaxValue)]
         public int SiteItmFeedbackId { get; set; }
 
+        [Display(Name = "Site ITM Feedback")]
         public string SiteItmFeedbackName { get; set; }
 
         [Display(Name = "Department")]
-        [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
+        [Range(1, Int32.MaxValue)]
         public int DepartmentId { get; set; }
 
+        [Display(Name = "Site ITM Feedback")]
         public string DepartmentName { get; set; }
 
         [Display(Name = "Application Type")]
-        [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
+        [Range(1, Int32.MaxValue)]
         public int ApplicationTypeId { get; set; }
 
+        [Display(Name = "Application Type")]
         public string ApplicationTypeName { get; set; }
 
         public string Apex { get; set; }
 
         [Display(Name = "Potential Value")]
-        [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
+        [Required(AllowEmptyStrings = false)]
         [DataType(DataType.Currency, ErrorMessage = "Enter a valid currency value")]
         public decimal? PotentialValue { get; set; }
 
@@ -161,10 +170,10 @@ namespace ProjectManagr.ViewModels
         public string SiteItm { get; set; }
 
         [Display(Name = "Site Engagement Start Date")]
-        [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
+        [Required(AllowEmptyStrings = false)]
         public DateTime? SiteEngagementStart { get; set; }
 
-        [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
+        [Required(AllowEmptyStrings = false)]
         [Display(Name = "Site Engagement End Date")]
         public DateTime? SiteEngagementEnd { get; set; }
 
@@ -208,6 +217,34 @@ namespace ProjectManagr.ViewModels
         public DateTime ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string CreatedDateString
+        {
+            get
+            {
+                return this.CreatedDate.ToString(Constants.DateFormat.DefaultFormat);
+            }
+        }
+        public string ModifiedDateString
+        {
+            get
+            {
+                return this.ModifiedDate.ToString(Constants.DateFormat.DefaultFormat);
+            }
+        }
+        public string SiteEngagementStartString
+        {
+            get
+            {
+                return this.SiteEngagementStart?.ToString(Constants.DateFormat.DefaultFormat);
+            }
+        }
+        public string SiteEngagementEndString
+        {
+            get
+            {
+                return this.SiteEngagementEnd?.ToString(Constants.DateFormat.DefaultFormat);
+            }
+        }
         public string CreatedBy { get; set; }
 
         public bool IsSelected { get; set; }
