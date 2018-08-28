@@ -258,6 +258,7 @@
     <Content Include="Content\Common.css" />
     <Content Include="Content\Dashboard.css" />
     <Content Include="Content\Datepicker\datepicker.css" />
+    <Content Include="Content\Font\Raleway\OFL.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -272,6 +273,24 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Font\Raleway\Raleway-Black.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-BlackItalic.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-Bold.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-BoldItalic.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-ExtraBold.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-ExtraBoldItalic.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-ExtraLight.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-ExtraLightItalic.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-Italic.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-Light.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-LightItalic.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-Medium.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-MediumItalic.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-Regular.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-SemiBold.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-SemiBoldItalic.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-Thin.ttf" />
+    <Content Include="Content\Font\Raleway\Raleway-ThinItalic.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

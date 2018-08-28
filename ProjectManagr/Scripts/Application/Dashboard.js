@@ -80,7 +80,7 @@ function LoadCharts(data, minDate, maxDate) {
         if (data[i].IsProgressBeyondToday)
         {
             //To Show Asterisk near the Projects whose End dates have crossed current date!
-            asterisk = '<div style = "color:red; float : right;">*</div>';
+            asterisk = '<div class="asterisk">*</div>';
         }
 
         var projectName = '<div>' + data[i].Name.slice(0, 30) + elipsis + asterisk + '</div>';

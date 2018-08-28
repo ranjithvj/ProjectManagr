@@ -1,8 +1,8 @@
 ﻿body {
-     padding-top: 70px;
+    padding-top: 70px;
 }
 
-.chartTooltip{
+.chartTooltip {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px;
     line-height: 1.428571429;
@@ -11,9 +11,16 @@
 }
 
 .vis-labelset .vis-label .vis-inner {
-    display : block !important;
+    display: block !important;
+    font-size: 1vw;
 }
 
 .vis-background {
-  display: none;
+    display: none;
+}
+
+.asterisk {
+    color: red !important;
+    float: right !important;
+    font-size: 2vw !important;
 }

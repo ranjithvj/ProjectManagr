@@ -29,6 +29,7 @@
 
     thead input {
         width: 100%;
+        color : #E74C3C !important;
     }
 
     #selectAllCheckbox {
@@ -114,10 +115,22 @@ textarea {
     color: red;
 }
 
-table.dataTable thead th, table.dataTable thead td {
+table.dataTable thead th {
     font-size: 12px;
     padding: 2px 2px;
     text-align: center;
+    font-family : 'Raleway-ExtraBold';
+}
+
+table.dataTable thead td {
+    font-size: 12px;
+    padding: 2px 2px;
+    text-align: center;
+    /*font-family : 'Raleway-ExtraBold';*/
+}
+
+.searchHeader{
+    color : #E74C3C !important;
 }
 
 #screenTable a {
