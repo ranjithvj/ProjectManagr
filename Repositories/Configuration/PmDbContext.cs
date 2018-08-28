@@ -20,6 +20,7 @@ namespace Repositories
         public DbSet<Department> Departments { get; set; }
         public DbSet<ApplicationType> ApplicationTypes { get; set; }
         public DbSet<SubPortfolio> SubPortfolios { get; set; }
+        public DbSet<Manager> Managers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -44,6 +44,7 @@
     <Compile Include="IDepartmentService.cs" />
     <Compile Include="ISiteItmFeedbackService.cs" />
     <Compile Include="ISiteService.cs" />
+    <Compile Include="IManagerService.cs" />
     <Compile Include="ISubPortfolioService.cs" />
     <Compile Include="IApplicationTypeService.cs" />
     <Compile Include="IProjectService.cs" />

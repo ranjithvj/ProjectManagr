@@ -27,12 +27,12 @@ $(document).ready(function () {
             { "title": "PM/ADL /Planner", "data": "PmName", "width": "5%" },
             { "title": "Sub Portfolio", "data": "SubPortfolioName" },
             { "title": "Site", "data": "SiteName" },
-            { "title": "Site ITM", "data": "SiteItm" },
+            { "title": "Site ITM", "data": "SiteItmName" },
             { "title": "Site ITM Feedback", "data": "SiteItmFeedbackName" },
             { "title": "Eng. Start", "data": "SiteEngagementStartString" },
             { "title": "Eng. End", "data": "SiteEngagementEndString" },
             { "title": "Created By", "data": "CreatedBy" },
-            {"title": "Created On","data": "CreatedDateString"},
+            { "title": "Created On", "data": "CreatedDateString" },
             {
                 "title": "Actions",
                 "data": "Id",
@@ -168,7 +168,6 @@ $(document).ready(function () {
         $.get(url, function (data) {
             $('#createProjectSiteContainer').html(data);
             $('#createProjectSiteModal').modal('show');
-            InitializeProjectEvents();
         });
     });
 
@@ -201,6 +200,8 @@ $(document).ready(function () {
             });
         });
     });
+
+
 
 });
 
@@ -310,18 +311,15 @@ function OnSuccessfulProjectSiteDelete(ids) {
     NotifySuccess(ids.length + ' records deleted');
 }
 
-function InitializeProjectEvents() {
-    //event for the Add Project button
-    //Open up the Add Project partial View
-    $("#btnCreateProject").on("click", function () {
-        var url = $(this).data("url");
+function OpenCreateProjectPopup() {
+    var url = $('#btnCreateProject').attr('data-url');
 
-        $.get(url, function (data) {
-            $('#createProjectContainer').html(data);
-            $('#createProjectModal').modal('show');
-        });
+    $.get(url, function (data) {
+        $('#createProjectContainer').html(data);
+        $('#createProjectModal').modal('show');
     });
 }
+
 
 function OnSuccessfulProjectAddition(data) {
     if (data.status != "success") {
@@ -392,9 +390,7 @@ function CountryDropdownchange() {
     //Make the site dropdown editable
     $("#SiteId").prop("disabled", false);
 
-    if (siteId) {
-        $("#SiteId").val(siteId);
-    }
+    $("#SiteId").val(filteredSiteList[0].Value);
 }
 
 function SiteDropdownchange() {
@@ -407,7 +403,8 @@ function PopulateProjectFields(data) {
     $('#Code').val(data.project.Code);
     $('#Name').val(data.project.Name);
     $('#Description').val(data.project.Description);
-    $('#PmName').val(data.project.PmName);
+    $('#PmId').val(data.project.PmId);
+    $('#PmIdRef').val(data.project.PmId);
     $('#ApplicationName').val(data.project.ApplicationName);
     $('#SubPortfolioId').val(data.project.SubPortfolioId);
     $('#SubPortfolioIdRef').val(data.project.SubPortfolioId);
@@ -418,7 +415,8 @@ function ClearProjectFields() {
     $('#Code').val("");
     $('#Name').val("");
     $('#Description').val("");
-    $('#PmName').val("");
+    $('#PmId').val("");
+    $('#PmIdRef').val("");
     $('#ApplicationName').val("");
     $('#SubPortfolioId').val("");
     $('#SubPortfolioIdRef').val("");
@@ -429,3 +427,4 @@ function ParseDate(data) {
     var month = date.getMonth() + 1;
     return (month.length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
 }
+

@@ -35,6 +35,7 @@ namespace ProjectManagr.Controllers
                 , _siteService
                 , null
                 , _entityStatusService
+                , null
                 , null);
         }
         public ActionResult Index(DashboardVM request)
@@ -52,16 +53,25 @@ namespace ProjectManagr.Controllers
         {
             List<ProjectSite> projectSites = _projectSiteService.GetWithFilter(request.StartDate, request.EndDate, request.SelectedSite, request.EntityStatusId);
 
-            List<ProjectSiteVM> chartsData = new List<ProjectSiteVM>();
-            projectSites.ForEach(x => chartsData.Add(new ProjectSiteVM(x)));
+            int inProgressConfirmed = _entityStatusService.GetAll().FirstOrDefault(x => x.Name == Constants.EntityStatus.InProgressConfirmed).Id;
 
+            List<ProjectSiteVM> chartsData = new List<ProjectSiteVM>();
+
+            //We assign IsBeyondToday as true, if the status is 'In Progress-Confirmed' and the End date is beyond today
+            projectSites.ForEach(x => {
+                ProjectSiteVM vm = new ProjectSiteVM(x);
+                vm.IsProgressBeyondToday = vm.SiteEngagementEnd > DateTime.Today && vm.EntityStatusId == inProgressConfirmed;
+                chartsData.Add(vm);
+                });
+
+            //We also sort the data in the order such that the records with 'IsBeyondToday' come at the top
             DashboardVM response = new DashboardVM();
             response.StartDate = request.StartDate;
             response.EndDate = request.EndDate;
             response.Sites = _dropdownHelper.Sites;
             response.SelectedSite = request.SelectedSite;
             response.EntityStatusId = request.EntityStatusId;
-            response.ChartData = chartsData;
+            response.ChartData = chartsData.OrderBy(x => x.IsProgressBeyondToday ? 0 : 1).ToList();
             response.MinDate = chartsData?.Select(x => x.SiteEngagementStart).OrderBy(x => x).FirstOrDefault().ToString()
                 ?? DateTime.MinValue.ToString();
             response.MaxDate = chartsData?.Select(x => x.SiteEngagementEnd).OrderByDescending(x => x).FirstOrDefault().ToString()

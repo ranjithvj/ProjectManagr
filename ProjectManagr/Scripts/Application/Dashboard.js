@@ -70,26 +70,38 @@ function LoadCharts(data, minDate, maxDate) {
     }
 
     for (var i = 0; i < numberOfGroups ; i++) {
+        var asterisk = '';
+        var elipsis = '';
+
+        if (data[i].Name.length > 30)
+        {
+            elipsis = '...';
+        }
+        if (data[i].IsProgressBeyondToday)
+        {
+            //To Show Asterisk near the Projects whose End dates have crossed current date!
+            asterisk = '<div style = "color:red; float : right;">*</div>';
+        }
+
+        var projectName = '<div>' + data[i].Name.slice(0, 30) + elipsis + asterisk + '</div>';
+        
         groups.add({
             id: i,
-            content: data[i].Name.slice(0, 30) + '...',
-            title: data[i].Name
-            //style: "width : 10%; overflow: hidden;text-overflow:ellipsis;"
+            content: projectName,
+            title: data[i].Name,
         });
 
         var color = data[i].EntityStatusColor;
         items.add({
-            id: i + 1000,
+            id: i + 5000,
             group: i,
-            //start: ParseDate(data[i].SiteEngagementStart),
-            //end: ParseDate(data[i].SiteEngagementEnd),
             start : new Date(data[i].SiteEngagementStartString),
             end: new Date(data[i].SiteEngagementEndString),
             content: data[i].EntityStatusName,
             title: "<div class='chartTooltip'><div>Application : " + data[i].ApplicationName + "</div>"
             + "<div>Project : " + data[i].Name + "</div>"
             + "<div>PM/ADL : " + data[i].PmName + "</div>"
-            + "<div>Site ITM : " + data[i].SiteItm + "</div>"
+            + "<div>Site ITM : " + data[i].SiteItmName + "</div>"
             + "<div>Site ITM Feedback : " + data[i].SiteItmFeedbackName + "</div></div>"
             ,
             style: "background-color : " + data[i].ColorCode,
@@ -103,17 +115,16 @@ function LoadCharts(data, minDate, maxDate) {
         horizontalScroll: false,
         zoomable: false,
         moveable: false,
-        //maxHeight: 400,
         start: filterStart,
         end: filterEnd,
-        //editable: true,
         margin: {
             item: 10, // minimal margin between items
             axis: 5   // minimal margin between items and the axis
         },
         orientation: 'top',
         showCurrentTime: false,
-        timeAxis: { scale: 'month', step: 1 }
+        timeAxis: { scale: 'month', step: 1 },
+        groupOrder: 'id'
     };
 
     // create a Timeline

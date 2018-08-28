@@ -25,6 +25,7 @@ namespace ProjectManagr.Controllers
         private readonly IProjectSiteService _projectSiteService;
         private readonly IEntityStatusService _entityStatusService;
         private readonly IProjectService _projectService;
+        private readonly IManagerService _managerService;
         private readonly DropdownHelper _dropdownHelper;
 
         public ProjectSiteController(
@@ -36,7 +37,8 @@ namespace ProjectManagr.Controllers
         , ISubPortfolioService subportfolioService
         , IProjectSiteService projectSiteService
         , IEntityStatusService entityStatusService
-        , IProjectService projectService)
+        , IProjectService projectService
+        , IManagerService managerService)
         {
             _applicationTypeService = applicationTypeService;
             _countryService = countryService;
@@ -47,6 +49,7 @@ namespace ProjectManagr.Controllers
             _siteItmFeedbackService = siteItmFeedbackService;
             _siteService = siteService;
             _subportfolioService = subportfolioService;
+            _managerService = managerService;
 
             //Initialize the dropdown helper
             _dropdownHelper = new DropdownHelper(
@@ -57,7 +60,8 @@ namespace ProjectManagr.Controllers
                 , _siteService
                 , _subportfolioService
                 , _entityStatusService
-                , _projectService);
+                , _projectService
+                , _managerService);
         }
 
         // GET: ProjectSite
@@ -266,12 +270,12 @@ namespace ProjectManagr.Controllers
             projectsite.ProjectId = obj.ProjectId;
             projectsite.EntityStatusId = obj.EntityStatusId;
             projectsite.SiteId = obj.SiteId;
+            projectsite.SiteItmId = obj.SiteItmId;
             projectsite.SiteItmFeedbackId = obj.SiteItmFeedbackId;
             projectsite.DepartmentId = obj.DepartmentId;
             projectsite.ApplicationTypeId = obj.ApplicationTypeId;
             projectsite.Apex = obj.Apex;
             projectsite.PotentialValue = obj.PotentialValue;
-            projectsite.SiteItm = obj.SiteItm;
             projectsite.SiteEngagementStart = obj.SiteEngagementStart ?? DateTime.MinValue;
             projectsite.SiteEngagementEnd = obj.SiteEngagementEnd ?? DateTime.MinValue;
             projectsite.HasBusinessImpact = obj.HasBusinessImpact; 
@@ -310,10 +314,9 @@ namespace ProjectManagr.Controllers
             data.Code = obj.Code;
             data.Name = obj.Name;
             data.Description = obj.Description;
-            data.PmName = obj.PmName;
             data.ApplicationName = obj.ApplicationName;
             data.SubPortfolioId = obj.SubPortfolioId;
-
+            data.PmId = obj.PmId;
             return data;
         }
 
@@ -328,11 +331,13 @@ namespace ProjectManagr.Controllers
             vm.Sites = _dropdownHelper.Sites;
             vm.SubPortfolios = _dropdownHelper.SubPortfolios;
             vm.CountrySiteMap = _dropdownHelper.CountrySiteMap;
+            vm.Managers = _dropdownHelper.Managers;
         }
 
         private void PopulateDropdowns(ProjectVM vm)
         {
             vm.SubPortfolios = _dropdownHelper.SubPortfolios;
+            vm.Pms = _dropdownHelper.Managers;
         }
         #endregion Helpers
     }

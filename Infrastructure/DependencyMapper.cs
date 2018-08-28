@@ -22,6 +22,7 @@ namespace CompositionRoot
             this.Bind<ISiteItmFeedbackService>().To<SiteItmFeedbackService>();
             this.Bind<ISiteService>().To<SiteService>();
             this.Bind<ISubPortfolioService>().To<SubPortfolioService>();
+            this.Bind<IManagerService>().To<ManagerService>();
 
             #endregion Services
 
@@ -37,6 +38,7 @@ namespace CompositionRoot
             this.Bind<ISiteItmFeedbackRepository>().To<SiteItmFeedbackRepository>();
             this.Bind<ISiteRepository>().To<SiteRepository>();
             this.Bind<ISubPortfolioRepository>().To<SubPortfolioRepository>();
+            this.Bind<IManagerRepository>().To<ManagerRepository>();
 
             #endregion DataAccess
         }

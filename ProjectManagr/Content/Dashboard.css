@@ -9,3 +9,11 @@
     color: #333333;
     background-color: #ffffff;
 }
+
+.vis-labelset .vis-label .vis-inner {
+    display : block !important;
+}
+
+.vis-background {
+  display: none;
+}

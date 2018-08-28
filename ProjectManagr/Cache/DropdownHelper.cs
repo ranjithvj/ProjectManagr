@@ -18,6 +18,7 @@ namespace ProjectManagr.Cache
         private readonly ISubPortfolioService _subportfolioService;
         private readonly IEntityStatusService _entityStatusService;
         private readonly IProjectService _projectService;
+        private readonly IManagerService _managerService;
 
         public DropdownHelper(
              IApplicationTypeService applicationTypeService
@@ -27,7 +28,8 @@ namespace ProjectManagr.Cache
         , ISiteService siteService
         , ISubPortfolioService subportfolioService
         , IEntityStatusService entityStatusService
-        , IProjectService projectService)
+        , IProjectService projectService
+        , IManagerService managerService)
         {
             _applicationTypeService = applicationTypeService;
             _countryService = countryService;
@@ -37,13 +39,14 @@ namespace ProjectManagr.Cache
             _siteItmFeedbackService = siteItmFeedbackService;
             _siteService = siteService;
             _subportfolioService = subportfolioService;
+            _managerService = managerService;
         }
 
         public List<SelectListItem> EntityStatuses
         {
             get
             {
-                List<EntityStatus> allEntityStatus = _entityStatusService.GetAll();
+                List<EntityStatus> allEntityStatus = _entityStatusService.GetAll().OrderBy(x=>x.Name).ToList();
                 List<SelectListItem> dropdown = allEntityStatus
                     .Select(x => new SelectListItem
                     {
@@ -59,7 +62,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Project> allProjects = _projectService.GetAll();
+                List<Project> allProjects = _projectService.GetAll().OrderBy(x => x.Name).ToList();
                 List<SelectListItem> dropdown = allProjects
                     .Select(x => new SelectListItem
                     {
@@ -75,7 +78,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<ApplicationType> items = _applicationTypeService.GetAll();
+                List<ApplicationType> items = _applicationTypeService.GetAll().OrderBy(x => x.Name).ToList();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -91,7 +94,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Country> items = _countryService.GetCountriesWithSites();
+                List<Country> items = _countryService.GetCountriesWithSites().OrderBy(x=>x.Name).ToList();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -107,7 +110,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Department> items = _departmentService.GetAll();
+                List<Department> items = _departmentService.GetAll().OrderBy(x => x.Name).ToList();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -123,7 +126,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<SiteItmFeedback> items = _siteItmFeedbackService.GetAll();
+                List<SiteItmFeedback> items = _siteItmFeedbackService.GetAll().OrderBy(x => x.Name).ToList();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -139,7 +142,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<Site> items = _siteService.GetAll();
+                List<Site> items = _siteService.GetAll().OrderBy(x => x.Name).ToList();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -155,7 +158,7 @@ namespace ProjectManagr.Cache
         {
             get
             {
-                List<SubPortfolio> items = _subportfolioService.GetAll();
+                List<SubPortfolio> items = _subportfolioService.GetAll().OrderBy(x => x.Name).ToList();
                 List<SelectListItem> dropdown = items
                     .Select(x => new SelectListItem
                     {
@@ -166,6 +169,22 @@ namespace ProjectManagr.Cache
                 return dropdown;
             }
         }
+        public List<SelectListItem> Managers
+        {
+            get
+            {
+                List<Manager> items = _managerService.GetAll().OrderBy(x => x.Name).ToList();
+                List<SelectListItem> dropdown = items
+                    .Select(x => new SelectListItem
+                    {
+                        Text = x.Name,
+                        Value = x.Id.ToString()
+                    }).ToList();
+
+                return dropdown;
+            }
+        }
+
 
         public Dictionary<int, List<int>> CountrySiteMap
         {

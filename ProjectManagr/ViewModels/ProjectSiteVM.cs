@@ -23,7 +23,6 @@ namespace ProjectManagr.ViewModels
                 this.ProjectId = obj.ProjectId;
                 this.Apex = obj.Apex;
                 this.PotentialValue = obj.PotentialValue;
-                this.SiteItm = obj.SiteItm;
                 this.SiteEngagementStart = obj.SiteEngagementStart;
                 this.SiteEngagementEnd = obj.SiteEngagementEnd;
                 this.HasBusinessImpact = obj.HasBusinessImpact;
@@ -41,11 +40,17 @@ namespace ProjectManagr.ViewModels
                     this.Code = obj.Project.Code;
                     this.Name = obj.Project.Name;
                     this.Description = obj.Project.Description;
-                    this.PmName = obj.Project.PmName;
                     this.ApplicationName = obj.Project.ApplicationName;
                     this.SubPortfolioId = obj.Project.SubPortfolio.Id;
                     this.SubPortfolioIdRef = obj.Project.SubPortfolio.Id;
                     this.SubPortfolioName = obj.Project.SubPortfolio.Name;
+
+                    if (obj.Project.Pm != null)
+                    {
+                        this.PmName = obj.Project.Pm.Name;
+                        this.PmId = obj.Project.Pm.Id;
+                        this.PmIdRef = obj.Project.Pm.Id;
+                    }
                 }
                 if (obj.EntityStatus != null)
                 {
@@ -80,6 +85,11 @@ namespace ProjectManagr.ViewModels
                     this.ApplicationTypeId = obj.ApplicationType.Id;
                     this.ApplicationTypeName = obj.ApplicationType.Name;
                 }
+                if (obj.SiteItm != null)
+                {
+                    this.SiteItmId = obj.SiteItm.Id;
+                    this.SiteItmName = obj.SiteItm.Name;
+                }
 
             }
         }
@@ -100,7 +110,12 @@ namespace ProjectManagr.ViewModels
         public string Description { get; set; }
 
         [Display(Name = "PM / ADL / Planner")]
-        [Required(AllowEmptyStrings = false)]
+        public int PmId { get; set; }
+
+        [Range(1, Int32.MaxValue)]
+        public int PmIdRef { get; set; }//To handle the disabled dropdown in the browser
+
+        [Display(Name = "PM / ADL / Planner")]
         public string PmName { get; set; } //todo: need to add range validation
 
         [Display(Name = "Application")]
@@ -159,15 +174,19 @@ namespace ProjectManagr.ViewModels
         [Display(Name = "Application Type")]
         public string ApplicationTypeName { get; set; }
 
+        [Display(Name = "Site ITM")]
+        [Range(1, Int32.MaxValue)]
+        public int SiteItmId { get; set; }
+
+        [Display(Name = "Site ITM")]
+        public string SiteItmName { get; set; }
+
         public string Apex { get; set; }
 
         [Display(Name = "Potential Value")]
         [Required(AllowEmptyStrings = false)]
         [DataType(DataType.Currency, ErrorMessage = "Enter a valid currency value")]
         public decimal? PotentialValue { get; set; }
-
-        [Display(Name = "Site ITM")]
-        public string SiteItm { get; set; }
 
         [Display(Name = "Site Engagement Start Date")]
         [Required(AllowEmptyStrings = false)]
@@ -249,11 +268,15 @@ namespace ProjectManagr.ViewModels
 
         public bool IsSelected { get; set; }
 
+        //To Show Asterisk near the Projects whose End dates have crossed current date!
+        public bool IsProgressBeyondToday { get; set; }
+
         #endregion
 
         #region Dropdowns
         public List<SelectListItem> EntityStatuses { get; set; }
         public List<SelectListItem> Projects { get; set; }
+        public List<SelectListItem> Managers { get; set; }
         public List<SelectListItem> ApplicationTypes { get; internal set; }
         public List<SelectListItem> Countries { get; internal set; }
         public List<SelectListItem> Departments { get; internal set; }

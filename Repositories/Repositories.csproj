@@ -57,6 +57,7 @@
     <Compile Include="Configuration\PmDbContext.cs" />
     <Compile Include="ApplicationTypeRepository.cs" />
     <Compile Include="ProjectSiteRepository.cs" />
+    <Compile Include="ManagerRepository.cs" />
     <Compile Include="SubPortfolioRepository.cs" />
     <Compile Include="SiteRepository.cs" />
     <Compile Include="SiteItmFeedbackRepository.cs" />

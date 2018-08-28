@@ -1,6 +1,6 @@
 declare @id int 
 select @id = 1
-while @id >=1 and @id <= 1000
+while @id >=1 and @id <= 500
 begin
 
 INSERT INTO [dbo].[ProjectSites]
@@ -12,7 +12,7 @@ INSERT INTO [dbo].[ProjectSites]
            ,[ApplicationTypeId]
            ,[Apex]
            ,[PotentialValue]
-           ,[SiteItm]
+           ,[SiteItmId]
            ,[SiteEngagementStart]
            ,[SiteEngagementEnd]
            ,[HasBusinessImpact]
@@ -33,7 +33,7 @@ INSERT INTO [dbo].[ProjectSites]
            ,@id%2 + 1
            ,'Test Apex'
            ,@id * 3
-           ,'Ranjith.Vijayabaskar'
+           ,@id%3+1
            ,DATEADD(day,(0 - ABS(CHECKSUM(NewId())) % 365),getdate())
            ,DATEADD(day,ABS(CHECKSUM(NewId())) % 365,getdate())
            ,1

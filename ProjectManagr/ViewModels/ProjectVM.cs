@@ -21,10 +21,12 @@ namespace ProjectManagr.ViewModels
             this.Code = obj.Code;
             this.Name = obj.Name;
             this.Description = obj.Description;
-            this.PmName = obj.PmName;
             this.ApplicationName = obj.ApplicationName;
             this.SubPortfolioId = obj.SubPortfolioId;
             this.SubPortfolioName = obj.SubPortfolio?.Name;
+            this.PmId = obj.PmId;
+            this.PmName = obj.Pm?.Name;
+            
         }
 
         #region Properties
@@ -36,12 +38,17 @@ namespace ProjectManagr.ViewModels
         [Required(ErrorMessage = "This is a required field")]
         public string Name { get; set; }
 
-        [Display(Name = "Project Description")]
-        public string Description { get; set; }
 
         [Display(Name = "PM / ADL / Planner")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "This is a required field")]
         [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
+        public int PmId { get; set; }
+
+        [Display(Name = "PM / ADL / Planner")]
         public string PmName { get; set; } //todo: need to add range validation
+
+        [Display(Name = "Project Description")]
+        public string Description { get; set; }
 
         [Display(Name = "Application Name")]
         [Required(ErrorMessage = "This is a required field", AllowEmptyStrings = false)]
@@ -57,6 +64,7 @@ namespace ProjectManagr.ViewModels
 
         #region Dropdowns
         public List<SelectListItem> SubPortfolios { get; set; }
+        public List<SelectListItem> Pms { get; set; }
 
         #endregion
     }

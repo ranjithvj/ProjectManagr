@@ -24,9 +24,9 @@ namespace Models
         [MaxLength(100)]
         public string Description { get; set; }
 
-        [MaxLength(50)]
-        [Required]
-        public string PmName { get; set; }
+        [ForeignKey("Pm")]
+        public int PmId { get; set; }
+        public virtual Manager Pm { get; set; }
 
         [MaxLength(50)]
         [Required]

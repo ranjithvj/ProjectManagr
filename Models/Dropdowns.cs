@@ -15,6 +15,17 @@ namespace Models
         public string ColorCode { get; set; }
     }
 
+    public class Manager
+    {
+        [Key, Column(Order = 0)]
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+        [MaxLength(50)]
+        public string Email { get; set; }
+    }
+
     public class Country
     {
         [Key, Column(Order = 0)]

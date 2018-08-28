@@ -46,6 +46,7 @@
     <Compile Include="INoCacheRepository.cs" />
     <Compile Include="ISiteItmFeedbackRepository.cs" />
     <Compile Include="ISiteRepository.cs" />
+    <Compile Include="IManagerRepository.cs" />
     <Compile Include="ISubPortfolioRepository.cs" />
     <Compile Include="IProjectRepository.cs" />
     <Compile Include="IEntityStatusRepository.cs" />

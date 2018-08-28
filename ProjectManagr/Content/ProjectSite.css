@@ -12,7 +12,7 @@
     }
 
     .container {
-        max-width: 1700px;
+        max-width: 100vmax;
     }
 
     #screenTable_wrapper thead th, #screenTable_wrapper thead td {
@@ -36,7 +36,7 @@
         width: 15px;
     }
 
-    .rowlength{
+    .rowlength {
         padding-top: 0.755em;
     }
 }
@@ -48,6 +48,10 @@ body {
     padding-top: 50px;
     padding-bottom: 20px;
     font-size: 12px;
+}
+
+.container {
+    max-width: 100vmax;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -117,5 +121,5 @@ table.dataTable thead th, table.dataTable thead td {
 }
 
 #screenTable a {
-    color:#333333; 
+    color: #333333;
 }

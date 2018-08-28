@@ -24,12 +24,12 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             @if (Model.IsEdit)
             {
-            <h4>Edit Project Site</h4>
+                <h4>Edit Project Site</h4>
                 postMethod = "Edit";
             }
             else
             {
-            <h4>Add Project Site</h4>
+                <h4>Add Project Site</h4>
                 postMethod = "Create";
             }
         </div>
@@ -37,7 +37,7 @@
         @Html.Hidden("CountrySiteMap", countrySiteMap)
         @Html.Hidden("CountryList", countryList)
         @Html.Hidden("SiteList", siteList)
-        @using (Ajax.BeginForm(postMethod, "ProjectSite", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessfulProjectSiteUpdate(data,"+ @isEdit + ")"}, new { @class = "form-horizontal", role = "form" }))
+        @using (Ajax.BeginForm(postMethod, "ProjectSite", null, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessfulProjectSiteUpdate(data," + @isEdit + ")" }, new { @class = "form-horizontal", role = "form" }))
         {
             <div class="modal-body" id="ModalBody">
                 <div class="form-horizontal">
@@ -50,22 +50,27 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.ProjectId, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
-                            @Html.DropDownListFor(model => model.ProjectId, Model.Projects, "Select one", 
+                            @Html.DropDownListFor(model => model.ProjectId, Model.Projects, "Select one",
                            new { @class = "form-control", @onchange = "ProjectDropdownchange()" })
                             @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-default btn-md" data-toggle="modal"
-                                    data-url="@Url.Action("AddProject", "ProjectSite")" id="btnCreateProject">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                Add
-                            </button>
-                        </div>
+
+                        @*Show the Add Project button only during Add and not during Edit*@
+                        @if (!Model.IsEdit)
+                        {
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-default btn-md" data-toggle="modal"
+                                        data-url="@Url.Action("AddProject", "ProjectSite")" id="btnCreateProject" onclick="OpenCreateProjectPopup()">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    Add
+                                </button>
+                            </div>
+                        }
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-5" })
-                           <div class="col-md-5">
+                        <div class="col-md-5">
                             @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
                         </div>
@@ -81,14 +86,25 @@
                         <div class="col-md-2"></div>
                     </div>
 
-                    <div class="form-group">
+                    @*<div class="form-group">
                         @Html.LabelFor(model => model.PmName, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-5">
                             @Html.EditorFor(model => model.PmName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.PmName, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
+                    </div>*@
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PmId, htmlAttributes: new { @class = "control-label col-md-5" })
+                        <div class="col-md-5">
+                            @Html.DropDownListFor(model => model.PmId, Model.Managers, "Select one", new { @class = "form-control", @disabled = "disabled" })
+                            @Html.HiddenFor(x => x.PmIdRef)
+                            @Html.ValidationMessageFor(model => model.PmId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2"></div>
                     </div>
+
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.ApplicationName, htmlAttributes: new { @class = "control-label col-md-5" })
@@ -112,7 +128,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.EntityStatusId, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
-                            @Html.DropDownListFor(model => model.EntityStatusId, Model.EntityStatuses, "Select one" , new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.EntityStatusId, Model.EntityStatuses, "Select one", new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.EntityStatusId, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
@@ -121,7 +137,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
-                            @Html.DropDownListFor(model => model.CountryId, Model.Countries, "Select one", new { @class = "form-control" , @onchange = "CountryDropdownchange()"  })
+                            @Html.DropDownListFor(model => model.CountryId, Model.Countries, "Select one", new { @class = "form-control", @onchange = "CountryDropdownchange()" })
                             @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
@@ -132,7 +148,7 @@
                         <div class="col-md-5">
                             @if (Model.IsEdit)
                             {
-                            @Html.DropDownListFor(model => model.SiteId, Model.Sites, "Select one", new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.SiteId, Model.Sites, "Select one", new { @class = "form-control" })
                             }
                             else
                             {
@@ -143,14 +159,7 @@
                         <div class="col-md-2"></div>
                     </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.SiteItmFeedbackId, htmlAttributes: new { @class = "control-label col-md-5 required" })
-                        <div class="col-md-5">
-                            @Html.DropDownListFor(model => model.SiteItmFeedbackId, Model.SiteItmFeedbacks, "Select one", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.SiteItmFeedbackId, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2"></div>
-                    </div>
+                    
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label col-md-5 required" })
@@ -189,10 +198,19 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.SiteItm, htmlAttributes: new { @class = "control-label col-md-5" })
+                        @Html.LabelFor(model => model.SiteItmId, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
-                            @Html.EditorFor(model => model.SiteItm, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.SiteItm, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.SiteItmId, Model.Managers, "Select one", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SiteItmId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SiteItmFeedbackId, htmlAttributes: new { @class = "control-label col-md-5 required" })
+                        <div class="col-md-5">
+                            @Html.DropDownListFor(model => model.SiteItmFeedbackId, Model.SiteItmFeedbacks, "Select one", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SiteItmFeedbackId, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
                     </div>

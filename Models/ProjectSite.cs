@@ -36,13 +36,15 @@ namespace Models
 
         public virtual ApplicationType ApplicationType { get; set; }
 
+        [ForeignKey("SiteItm")]
+        public int? SiteItmId { get; set; }
+        public virtual Manager SiteItm { get; set; }
+
         [MaxLength(50)]
         public string Apex { get; set; }
         
         [Required]
         public decimal? PotentialValue { get; set; }
-
-        public string SiteItm { get; set; }
 
         [Required]
         public DateTime SiteEngagementStart { get; set; }

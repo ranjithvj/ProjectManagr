@@ -1,17 +1,45 @@
 --insert into EntityStatus (Name, ColorCode)
 --values
---('Closed','#6AAB5B') --green
---,('In Progress','#6859AB') --blue
---,('In Progress - Confirmed','#995DAB') --purple
---,('In Progress - Tentative','#EAEE76') --yellow
---,('Pipeline','#EECEA8')--peach
+--('Pipeline','#EECEA8')--peach
 --,('S&I','#98EEE8') --torquise
 --,('SOM','#EEB4CE') --pink
 --,('Turnaround','#EE5C4E') --red
-
+--,('Closed','#6AAB5B') --green
+--,('In Progress','#6859AB') --blue
+--,('In Progress - Confirmed','#995DAB') --purple
+--,('In Progress - Tentative','#EAEE76') --yellow
 
 --insert into Departments (Name)
 --values ('Mfg DV')
+
+
+--insert into ApplicationTypes (Name)
+--values 
+--('Pure Application')
+--,('Application & Infra')
+
+
+--insert into SiteItmFeedbacks(Name)
+--values 
+--('Red')
+--,('Amber')
+--,('Green')
+
+--insert into SubPortfolios(Name)
+--values
+--('Innovation')
+--,('REMPTA')
+--,('S&I')
+--,('T&PE')
+--,('Tech. & Production Excellence')
+--,('Business Excellence')
+--,('Capital Projects')
+--,('CTM/HMB')
+--,('Functions')
+--,('Functions - Other')
+--,('HSSE')
+
+
 
 --insert into Countries (Name)
 --values ('Argentina')
@@ -36,18 +64,6 @@
 --,('Turkey')
 --,('UAE (United Arab Emirates)')
 --,('USA (United States)')
---,('Global')
-
-
---insert into ApplicationTypes (Name)
---values ('Application & Infra')
---,('Pure Application')
-
-
---insert into SiteItmFeedbacks(Name)
---values ('Amber')
---,('Green')
---,('Red')	
 
 
 
@@ -60,7 +76,7 @@
 --('Fredericia (FRE)',4),
 --('Geismar',22),
 --('Geismar (GCC)',22),
---('Global Sites',23),
+--('Global Sites',6),
 --('Martinez',22),
 --('Martinez (MZR)',22),
 --('Moerdijk',12),
@@ -87,17 +103,3 @@
 --('T&S Germany Wave 1',5),
 --('T&S Germany Wave 2',5),
 --('Tabangao (TAB)',15)
-
---insert into SubPortfolios(Name)
---values('Business Excellence')
---,('Capital Projects')
---,('CTM/HMB')
---,('Functions')
---,('Functions - Other')
---,('HSSE')
---,('Innovation')
---,('REMPTA')
---,('S&I')
---,('T&PE')
---,('Tech. & Production Excellence')
-

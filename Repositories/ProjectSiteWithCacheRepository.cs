@@ -118,12 +118,14 @@ namespace Repositories
             return context.ProjectSites
                     .Include(x => x.Project)
                     .Include(x => x.Project.SubPortfolio)
+                    .Include(x => x.Project.Pm)
                     .Include(x => x.EntityStatus)
                     .Include(x => x.Site)
                     .Include(x => x.Site.Country)
                     .Include(x => x.SiteItmFeedback)
                     .Include(x => x.Department)
                     .Include(x => x.ApplicationType)
+                    .Include(x => x.SiteItm)
                     .Where(x => x.IsActive);
         }
 
