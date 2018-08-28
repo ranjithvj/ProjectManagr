@@ -182,7 +182,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Apex, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-5">
-                            @Html.EditorFor(model => model.Apex, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Apex, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.Apex, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
@@ -191,7 +191,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.PotentialValue, htmlAttributes: new { @class = "control-label col-md-5 required" })
                         <div class="col-md-5">
-                            @Html.EditorFor(model => model.PotentialValue, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.PotentialValue, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.PotentialValue, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
@@ -248,7 +248,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.CommentsAndIssues, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-5">
-                            @Html.TextAreaFor(model => model.CommentsAndIssues, new { @class = "form-control" })
+                            @Html.TextAreaFor(model => model.CommentsAndIssues, new { @class = "form-control", @autocomplete = "off" })
                             @Html.ValidationMessageFor(model => model.CommentsAndIssues, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-2"></div>
@@ -269,7 +269,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-5" })
                         <div class="col-md-5">
-                            @Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
                         </div>
                     </div>

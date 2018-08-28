@@ -124,7 +124,9 @@ function LoadCharts(data, minDate, maxDate) {
         orientation: 'top',
         showCurrentTime: false,
         timeAxis: { scale: 'month', step: 1 },
-        groupOrder: 'id'
+        groupOrder: 'id',
+        maxHeight: '70vh',
+        verticalScroll: true,
     };
 
     // create a Timeline
