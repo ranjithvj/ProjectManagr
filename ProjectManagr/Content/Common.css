@@ -4,19 +4,19 @@
 
 @font-face {
     font-family: 'Raleway-Regular';
-    src: url('Font/Raleway/Raleway-Regular.ttf') format('truetype');
+    src: url('../Content/Font/Raleway/Raleway-Regular.ttf') format('truetype');
 }
 @font-face {
     font-family: 'Raleway-SemiBold';
-    src: url('Font/Raleway/Raleway-SemiBold.ttf') format('truetype');
+    src: url('../Content/Font/Raleway/Raleway-SemiBold.ttf') format('truetype');
 }
 @font-face {
     font-family: 'Raleway-Light';
-    src: url('Font/Raleway/Raleway-Light.ttf') format('truetype');
+    src: url('../Content/Font/Raleway/Raleway-Light.ttf') format('truetype');
 }
 @font-face {
     font-family: 'Raleway-ExtraBold';
-    src: url('Font/Raleway/Raleway-ExtraBold.ttf') format('truetype');
+    src: url('../Content/Font/Raleway/Raleway-ExtraBold.ttf') format('truetype');
 }
 body{
     font-family : 'Raleway-SemiBold';

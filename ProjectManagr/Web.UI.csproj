@@ -291,6 +291,8 @@
     <Content Include="Content\Font\Raleway\Raleway-SemiBoldItalic.ttf" />
     <Content Include="Content\Font\Raleway\Raleway-Thin.ttf" />
     <Content Include="Content\Font\Raleway\Raleway-ThinItalic.ttf" />
+    <None Include="Properties\PublishProfiles\pmo.pubxml" />
+    <None Include="Properties\PublishProfiles\PMO2.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -302,7 +304,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\New Datepicker\bootstrap-datepicker.js" />
-    <Content Include="Scripts\New Datepicker\datepicker.css" />
     <Content Include="Scripts\Notify\bootstrap-notify.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

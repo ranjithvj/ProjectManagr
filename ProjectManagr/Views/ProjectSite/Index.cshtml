@@ -4,7 +4,7 @@
 }
 
 <div class="gridDiv">
-    <table id="screenTable" class="display"  style="width:100%" >
+    <table id="screenTable" class="display" >
         <thead>
             <tr>
                 <th></th>
@@ -52,21 +52,27 @@
 @Html.Hidden("detailsUrl", Url.Action("Details", "ProjectSite"))
 @Html.Hidden("projectChangeUrl", Url.Action("GetProject", "ProjectSite"))
 
- <!-- Datatables Plugin -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+<!-- CSS BUNDLE -->
+@Styles.Render("~/bundles/mydpCss")
+
+<!--JQUERY VALIDATION-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.11.1/jquery.validate.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.5/jquery.validate.unobtrusive.min.js"></script>
+
+<!-- DataTables CDN -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/dataRender/ellipsis.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css" />
-@*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css" />*@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
-<!-- Bootstrap Date-Picker Plugin -->
+<!-- DatePicker CDN (ONLY FOR MYDP -- NO IDEA WHY CDN WORKS AND LOCAL FIL DOESN'T WORK) -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" /> 
+    
+<!-- Animate CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
 
-
-
-<!--Our JS-->
-<script src="~/Scripts/Application/ProjectSite.js"></script>
-<link href="~/Content/Common.css" rel="stylesheet" />
-
+<!-- JS BUNDLE -->
+@Scripts.Render("~/bundles/mydpJs")

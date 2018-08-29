@@ -136,11 +136,13 @@ $(document).ready(function () {
         },
         "order": [[4, 'asc']],
         //For aligning the components
-        "dom": '<"toolbar">rt<"row" <"col-md-6"i><"col-md-2 rowlength"l><"col-md-4"p>>',
+        "dom": '<"toolbar">rt<"row" <"col-md-6"i><"col-md-2 rowlength"><"col-md-4"p>>', //Add 'l' after rowlength" if you want the row length dropdwown back
         //To remove Search Label
         "oLanguage": {
             "sSearch": ""
-        }
+        },
+        "pageLength": 100,
+        scrollY: "58vh",
     });
 
     //Add new button
@@ -168,6 +170,7 @@ $(document).ready(function () {
         $.get(url, function (data) {
             $('#createProjectSiteContainer').html(data);
             $('#createProjectSiteModal').modal('show');
+
         });
     });
 
@@ -232,6 +235,8 @@ $('#screenTable').on("click", ".editProject", function (event) {
     $.get(url, function (data) {
         $('#createProjectSiteContainer').html(data);
         $('#createProjectSiteModal').modal('show');
+
+
         //Handle Country/Site dependant dropdown functionality
         CountryDropdownchange();
     });

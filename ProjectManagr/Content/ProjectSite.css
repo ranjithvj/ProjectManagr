@@ -136,3 +136,8 @@ table.dataTable thead td {
 #screenTable a {
     color: #333333;
 }
+
+#screenTable{
+    width : 100% !important;
+    max-height : 80vh !important;
+}

@@ -61,12 +61,17 @@
 
 <div id="dashboard"></div>
 
+<!-- CSS BUNDLE -->
+@Styles.Render("~/bundles/dashboardCss")
 
-<link href="~/Content/Dashboard.css" rel="stylesheet" />
-
-<!-- Visualization JS Plugin -->
+<!-- Visualization VIS CDN -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
-@*  *@
 
-<script src="~/Scripts/Application/Dashboard.js"></script>
+<!--WE USE LOCL DATEPICKER FOR DASHBOARD -- DON'T EVEN ASK ME WHY-->
+
+<!-- Animate CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
+
+<!-- JS BUNDLE -->
+@Scripts.Render("~/bundles/dashboardJs")
