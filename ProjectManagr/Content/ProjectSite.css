@@ -30,6 +30,9 @@
     thead input {
         width: 100%;
         color : #E74C3C !important;
+        background-color: #C8C8C8;
+        border-style : solid;
+        border-color :  #9D9D9D;
     }
 
     #selectAllCheckbox {
@@ -40,6 +43,18 @@
     .rowlength {
         padding-top: 0.755em;
     }
+
+    .dataTables_scroll{
+        border-style: groove;
+    }
+
+    thead{
+        background-color : #C8C8C8;
+    }
+
+    /*table{
+        border-style: solid;
+    }*/
 }
 
 
