@@ -16,7 +16,7 @@ function NotifyError(msg) {
             x: 25,
             y: 50,
         },
-        template: '<div data-notify="container" role="alert" class="col-xs-10 col-sm-3 col-md-3 alert alert-{0}" style=" max-width: 400px;">\
+        template: '<div data-notify="container" role="alert" class="col-xs-10 col-sm-3 col-md-3 alert alert-{0} notify notify-error">\
                 <button type="button" class="close" data-notify="dismiss">\
                     <span aria-hidden="true">×</span>\
                     <span class="sr-only">Close</span>\
@@ -45,7 +45,7 @@ function NotifySuccess(msg) {
             x: 25,
             y: 50
         },
-        template: '<div data-notify="container" role="alert" class="col-xs-10 col-sm-3 col-md-3 alert alert-{0}" style=" max-width: 600px;">\
+        template: '<div data-notify="container" role="alert" class="col-xs-10 col-sm-3 col-md-3 alert alert-{0} notify notify-success">\
                 <button type="button" class="close" data-notify="dismiss">\
                     <span aria-hidden="true">×</span>\
                     <span class="sr-only">Close</span>\
@@ -74,7 +74,7 @@ function NotifyInfo(msg) {
             x: 25,
             y: 50
         },
-        template: '<div data-notify="container" role="alert" class="col-xs-10 col-sm-3 col-md-3 alert alert-{0}" style=" max-width: 600px;">\
+        template: '<div data-notify="container" role="alert" class="col-xs-10 col-sm-3 col-md-3 alert alert-{0} notify notify-info">\
                 <button type="button" class="close" data-notify="dismiss">\
                     <span aria-hidden="true">×</span>\
                     <span class="sr-only">Close</span>\

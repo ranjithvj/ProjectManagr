@@ -1,18 +1,14 @@
 ﻿
 @media screen and (max-width: 1500px) {
-
-    body {
-        font-size: 12px;
-        padding-top: 50px;
-        padding-bottom: 20px;
+    .searchbox {
+        width: 50px !important;
+        max-width: 180px !important;
+        padding: 0 !important;
+        height: 20px !important;
     }
 
     .btn {
         font-size: 12px;
-    }
-
-    .container {
-        max-width: 100vmax;
     }
 
     #screenTable_wrapper thead th, #screenTable_wrapper thead td {
@@ -21,40 +17,14 @@
         text-align: center;
     }
 
-    #screenTable td {
-        font-size: 12px;
-        text-align: center;
-        padding: 8px 2px 8px 2px;
-    }
-
-    thead input {
-        width: 100%;
-        color : #E74C3C !important;
-        background-color: #C8C8C8;
-        border-style : solid;
-        border-color :  #9D9D9D;
-    }
-
     #selectAllCheckbox {
-        height: 15px;
-        width: 15px;
+        height: 15px !important;
+        width: 15px !important;
     }
 
     .rowlength {
         padding-top: 0.755em;
     }
-
-    .dataTables_scroll{
-        border-style: groove;
-    }
-
-    thead{
-        background-color : #C8C8C8;
-    }
-
-    /*table{
-        border-style: solid;
-    }*/
 }
 
 
@@ -90,13 +60,6 @@ textarea {
     max-width: 280px;
 }
 
-.searchbox {
-    width: 50px;
-    max-width: 180px;
-    padding: 0;
-}
-
-
 #createProjectContainer {
     margin-top: 5vh;
 }
@@ -130,29 +93,73 @@ textarea {
     color: red;
 }
 
+#screenTable {
+    width: 100% !important;
+    max-height: 80vh !important;
+}
+
+    #screenTable a {
+        color: #333333;
+    }
+
 table.dataTable thead th {
-    font-size: 12px;
     padding: 2px 2px;
-    text-align: center;
-    font-family : 'Raleway-ExtraBold';
+    font-family: 'Raleway-ExtraBold';
+    border-right: 1px solid #ddd;
+    border-top : 0;
 }
 
 table.dataTable thead td {
-    font-size: 12px;
     padding: 2px 2px;
+    border-right: 1px solid #ddd;
+}
+
+table.dataTable td {
     text-align: center;
-    /*font-family : 'Raleway-ExtraBold';*/
+    padding: 8px 2px 8px 2px;
 }
 
-.searchHeader{
-    color : #E74C3C !important;
+/*Search Box*/
+thead input {
+    background-color: #C8C8C8;
+    border-style: solid;
+    border-color: #9D9D9D;
+    width: 75px;
+    max-width: 270px;
+    padding: 0;
+    color: #002BF7;
 }
 
-#screenTable a {
-    color: #333333;
+/*header BG*/
+.dataTables_scrollHead {
+    background-color: #C8C8C8;
 }
 
-#screenTable{
-    width : 100% !important;
-    max-height : 80vh !important;
+.dataTables_scroll {
+    border-style: groove;
+}
+
+.toolbarButtons {
+    display: inline;
+    margin-right: 2%;
+}
+
+.toolbar {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+#selectAllCheckbox {
+    height: 20px;
+    width: 20px;
+}
+
+/*Selected Row background turning Red*/
+
+table.dataTable tbody tr.selected{
+    background-color : rgba(212, 63, 58, .55) !important;
+}
+
+table.dataTable tr.selected td.select-checkbox:after, table.dataTable tr.selected th.select-checkbox:after {
+    text-shadow: 1px 1px rgba(212, 63, 58, .55), -1px -1px rgba(212, 63, 58, .55), 1px -1px rgba(212, 63, 58, .55), -1px 1px rgba(212, 63, 58, .55) !important;
 }

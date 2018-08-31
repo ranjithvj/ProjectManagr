@@ -1,7 +1,4 @@
-﻿.gridDiv {
-    margin-top : 3vh;
-}
-
+﻿
 @font-face {
     font-family: 'Raleway-Regular';
     src: url('../Content/Font/Raleway/Raleway-Regular.ttf') format('truetype');
@@ -25,4 +22,24 @@ body{
 /*override  bootstrap header*/ 
 h4{
     font-family : 'Raleway-SemiBold' !important;
+}
+
+.notify{
+    font-size : larger;
+     max-width: 600px;
+}
+
+.notify-error{
+    background-color : #d9534f;
+     color : white;
+}
+
+.notify-success{
+    background-color : #5cb85c;
+     color : white;
+}
+
+.notify-info{
+    background-color : #428bca;
+     color : white;
 }

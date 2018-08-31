@@ -9,6 +9,7 @@ $(document).ready(function () {
         "scrollX": true,
         "fixedHeader": true,
         "orderCellsTop": true,
+        "orderClasses": false,
         "ajax": {
             "url": $('#getUrl').val(),
             "type": "POST"
@@ -148,20 +149,21 @@ $(document).ready(function () {
     //Add new button
     var createUrl = $('#createUrl').val();
     var deleteUrl = $('#deleteRequestUrl').val();
-    $("div.toolbar").append('<br>')
 
-    $("div.toolbar").html('<div class="row"><div class="col-md-1"><button type="button" class="btn btn-default btn-md" data-toggle="modal" ' +
+    $("div.toolbar").html('<div class="toolbarButtons"><button type="button" class="btn btn-primary btn-md" data-toggle="modal" ' +
         'data-url="' + createUrl + '" id="btnCreateProjectSite">' +
     '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' +
     'Add New</button></div>' +
 
-    '<div class="col-md-1"><button type="button" class="btn btn-default btn-md" ' +
+    '<div class="toolbarButtons"><button type="button" class="btn btn-danger btn-md" ' +
         'data-url="' + deleteUrl + '" id="btnDeleteSelected">' +
     '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ' +
-    'Delete Selected </button></div></div>'
+    'Delete Selected </button></div>' +
+    '<div class="toolbarButtons"><button type="button" class="btn btn-default btn-md" ' +
+         'id="btnClearFilters">' +
+    '<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> ' +
+    'Clear Filters </button></div>'
      );
-
-    $("div.toolbar").append('<br>')
 
     //Open up the Add partial View
     $("#btnCreateProjectSite").on("click", function () {
@@ -204,7 +206,11 @@ $(document).ready(function () {
         });
     });
 
-
+    //Clear all filters
+    $("#btnClearFilters").on("click", function () {
+        $('.searchbox').val('');
+        grid.search('').columns().search('').draw();
+    });
 
 });
 
@@ -313,7 +319,13 @@ function OnSuccessfulProjectSiteDelete(ids) {
     $("#selectAllCheckbox").prop("checked", false);
 
     grid.ajax.reload();
-    NotifySuccess(ids.length + ' records deleted');
+
+    var msg = " records deleted";
+    if (ids.length == 1)
+    {
+        msg = " record deleted";
+    }
+    NotifySuccess(ids.length + msg);
 }
 
 function OpenCreateProjectPopup() {
