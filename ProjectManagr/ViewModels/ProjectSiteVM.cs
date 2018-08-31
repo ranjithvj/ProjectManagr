@@ -134,7 +134,7 @@ namespace ProjectManagr.ViewModels
         [Range(1, Int32.MaxValue)]
         public int EntityStatusId { get; set; }
 
-        [Display(Name = "Sub Portfolio")]
+        [Display(Name = "Entity Status")]
         public string EntityStatusName { get; set; }
 
         public string ColorCode { get; set; }
@@ -164,7 +164,7 @@ namespace ProjectManagr.ViewModels
         [Range(1, Int32.MaxValue)]
         public int DepartmentId { get; set; }
 
-        [Display(Name = "Site ITM Feedback")]
+        [Display(Name = "Department")]
         public string DepartmentName { get; set; }
 
         [Display(Name = "Application Type")]
