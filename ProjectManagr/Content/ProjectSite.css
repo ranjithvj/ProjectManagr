@@ -33,7 +33,6 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    font-size: 12px;
 }
 
 .container {
@@ -87,11 +86,7 @@ textarea {
     background-color: rgba(0,0,0,0.5);
 }
 
-.required:after {
-    content: "*";
-    font-weight: bold;
-    color: red;
-}
+
 
 #screenTable {
     width: 100% !important;

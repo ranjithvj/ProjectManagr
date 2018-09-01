@@ -12,7 +12,6 @@ namespace CompositionRoot
         {
             #region Services
 
-            this.Bind<IScreenService>().To<ScreenService>();
             this.Bind<IProjectSiteService>().To<ProjectSiteService>();
             this.Bind<IEntityStatusService>().To<EntityStatusService>();
             this.Bind<IProjectService>().To<ProjectService>();
@@ -28,7 +27,6 @@ namespace CompositionRoot
 
             #region DataAccess
 
-            this.Bind<IScreenRepository>().To<ScreenRepository>();
             this.Bind<IProjectSiteRepository>().To<ProjectSiteWithCacheRepository>();
             this.Bind<IEntityStatusRepository>().To<EntityStatusRepository>();
             this.Bind<IProjectRepository>().To<ProjectRepository>();

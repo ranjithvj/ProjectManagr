@@ -1,9 +1,15 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
-
-@{
-    ViewBag.Title = "Error";
+﻿@{
+    Layout = null;
+    string mailTo = System.Configuration.ConfigurationManager.AppSettings["ErrorMailTo"];
+    string mailsubject = System.Configuration.ConfigurationManager.AppSettings["ErrorMailSubject"];
+    string hrefString = "mailto:"+ mailTo + "?Subject=" + mailsubject;
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1>500 Internal Server Error</h1>
+<p class="zoom-area"> Oops. Something went wrong. Looks like we're having server issues.</p>
 
+<div class="link-container">
+    @Html.ActionLink("Take me to Home page", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "more-link" })
+    <a href=@hrefString target="_top" class = "more-link">Report the issue</a>
+</div>
+<link href="~/Content/Error.css" rel="stylesheet" />

@@ -67,7 +67,6 @@
     <Compile Include="EntityStatusRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProjectSiteWithCacheRepository.cs" />
-    <Compile Include="ScreenRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

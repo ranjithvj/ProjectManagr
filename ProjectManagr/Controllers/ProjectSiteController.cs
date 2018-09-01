@@ -72,7 +72,7 @@ namespace ProjectManagr.Controllers
 
         public JsonResult Get()
         {
-  
+
             Stopwatch sw = Stopwatch.StartNew();
             List<ProjectSite> serviceReponse = _projectSiteService.GetAll();
             sw.Stop();
@@ -128,7 +128,7 @@ namespace ProjectManagr.Controllers
 
                 JsonResult result = new JsonResult
                 {
-                    Data = new { status = "success"},
+                    Data = new { status = "success" },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
 
@@ -164,12 +164,12 @@ namespace ProjectManagr.Controllers
                 }
 
                 ProjectSite projectSite = TransferData(obj);
-                    
+
                 _projectSiteService.Update(projectSite);
 
                 JsonResult result = new JsonResult
                 {
-                    Data = new { status = "success"},
+                    Data = new { status = "success" },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
                 return result;
@@ -231,7 +231,7 @@ namespace ProjectManagr.Controllers
 
                 JsonResult result = new JsonResult
                 {
-                    Data = new { status = "success", project = new ProjectVM(data)},
+                    Data = new { status = "success", project = new ProjectVM(data) },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
                 return result;
@@ -278,9 +278,9 @@ namespace ProjectManagr.Controllers
             projectsite.PotentialValue = obj.PotentialValue;
             projectsite.SiteEngagementStart = obj.SiteEngagementStart ?? DateTime.MinValue;
             projectsite.SiteEngagementEnd = obj.SiteEngagementEnd ?? DateTime.MinValue;
-            projectsite.HasBusinessImpact = obj.HasBusinessImpact; 
+            projectsite.HasBusinessImpact = obj.HasBusinessImpact;
             projectsite.CommentsAndIssues = obj.CommentsAndIssues;
-            projectsite.IsResourceRequired = obj.IsResourceRequired; 
+            projectsite.IsResourceRequired = obj.IsResourceRequired;
             projectsite.Attachment = obj.Attachment;
             projectsite.CreatedBy = obj.CreatedBy;
             projectsite.ModifiedBy = obj.ModifiedBy;
@@ -302,6 +302,12 @@ namespace ProjectManagr.Controllers
 
             return projectsite;
         }
+
+        public ActionResult TestError()
+        {
+            throw new Exception();
+        }
+
 
         private Project TransferData(ProjectVM obj)
         {

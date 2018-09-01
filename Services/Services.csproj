@@ -50,7 +50,6 @@
     <Compile Include="ProjectService.cs" />
     <Compile Include="EntityStatusService.cs" />
     <Compile Include="ProjectSiteService.cs" />
-    <Compile Include="ScreenService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

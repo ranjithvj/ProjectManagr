@@ -1,0 +1,10 @@
+﻿@{
+    Layout = null;
+}
+
+<h1>Error 404</h1>
+<p class="zoom-area"> The page you were looking for doesn't exist </p>
+<div class="link-container">
+    @Html.ActionLink("Take me to Home page", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "more-link" })
+</div>
+<link href="~/Content/Error.css" rel="stylesheet" />

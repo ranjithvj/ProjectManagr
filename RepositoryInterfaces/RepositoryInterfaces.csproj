@@ -52,7 +52,6 @@
     <Compile Include="IEntityStatusRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IProjectSiteRepository.cs" />
-    <Compile Include="IScreenRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

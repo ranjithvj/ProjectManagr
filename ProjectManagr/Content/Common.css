@@ -43,3 +43,18 @@ h4{
     background-color : #428bca;
      color : white;
 }
+
+.required:after {
+    content: "*";
+    font-weight: bold;
+    color: red;
+}
+
+body {
+    font-size: 12px;
+}
+
+/*Dropdown values*/
+.form-control{
+    font-size: 12px;
+}
