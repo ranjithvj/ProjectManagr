@@ -1,0 +1,15 @@
+﻿@{
+    Layout = null;
+    string mailTo = System.Configuration.ConfigurationManager.AppSettings["ErrorMailTo"];
+    string mailsubject = System.Configuration.ConfigurationManager.AppSettings["AccessMailSubject"];
+    string encodedSubject = System.Uri.EscapeDataString(mailsubject);
+    string hrefString = "mailto:" + mailTo + "?Subject=" + encodedSubject;
+}
+
+<h1>403 Forbidden</h1>
+<p class="zoom-area">You don't have permission to access this site. </p>
+<div class="errorImage"><img src="~/Content/Images/errorICON.png" alt="Error Image"></div>
+<div class="link-container">
+    <a href=@hrefString target="_top" class="more-link">Request Access</a>
+</div>
+<link href="~/Content/Error.css" rel="stylesheet" />

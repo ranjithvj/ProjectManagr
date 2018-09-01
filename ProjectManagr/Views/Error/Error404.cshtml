@@ -3,7 +3,8 @@
 }
 
 <h1>Error 404</h1>
-<p class="zoom-area"> The page you were looking for doesn't exist </p>
+<p class="zoom-area"> The page you were looking for doesn't exist. </p>
+<div class="errorImage"><img src="~/Content/Images/errorICON.png" alt="Error Image"></div>
 <div class="link-container">
     @Html.ActionLink("Take me to Home page", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "more-link" })
 </div>

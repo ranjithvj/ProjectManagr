@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 
 namespace ProjectManagr.Controllers
@@ -303,9 +304,16 @@ namespace ProjectManagr.Controllers
             return projectsite;
         }
 
-        public ActionResult TestError()
+        //TODO:REMOVE
+        public ActionResult TestError500()
         {
             throw new Exception();
+        }
+
+        //TODORV : REMOVE
+        public ActionResult TestError403()
+        {
+            throw new HttpException(403, "Forbidden");
         }
 
 

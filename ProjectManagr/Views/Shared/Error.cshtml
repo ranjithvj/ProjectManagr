@@ -2,13 +2,15 @@
     Layout = null;
     string mailTo = System.Configuration.ConfigurationManager.AppSettings["ErrorMailTo"];
     string mailsubject = System.Configuration.ConfigurationManager.AppSettings["ErrorMailSubject"];
-    string hrefString = "mailto:"+ mailTo + "?Subject=" + mailsubject;
+    string encodedSubject = System.Uri.EscapeDataString(mailsubject);
+    string hrefString = "mailto:"+ mailTo + "?Subject=" + encodedSubject;
 }
 
 <h1>500 Internal Server Error</h1>
 <p class="zoom-area"> Oops. Something went wrong. Looks like we're having server issues.</p>
-
+<div class="errorImage"><img src="~/Content/Images/errorICON.png" alt="Error Image"></div>
 <div class="link-container">
+    
     @Html.ActionLink("Take me to Home page", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "more-link" })
     <a href=@hrefString target="_top" class = "more-link">Report the issue</a>
 </div>

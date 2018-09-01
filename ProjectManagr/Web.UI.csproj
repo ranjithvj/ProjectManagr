@@ -259,6 +259,7 @@
     <Content Include="Content\Datepicker\datepicker.css" />
     <Content Include="Content\Error.css" />
     <Content Include="Content\Font\Raleway\OFL.txt" />
+    <Content Include="Content\Images\errorICON.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -349,6 +350,7 @@
     <Content Include="Views\Home\_Create.cshtml" />
     <Content Include="Views\Error\Error404.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Error\Error403.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

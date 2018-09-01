@@ -18,5 +18,10 @@ namespace ProjectManagr.Controllers
         {
             return View("Error404");
         }
+
+        public ActionResult Forbidden()
+        {
+            return View("Error403");
+        }
     }
 }
